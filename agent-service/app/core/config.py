@@ -1,0 +1,79 @@
+from pathlib import Path
+
+from pydantic import Field, computed_field, PostgresDsn
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# 以当前文件为基准，向上找两级的父目录，也就是项目的根目录
+APP_ROOT = Path(__file__).resolve().parents[2]
+# print(APP_ROOT) # E:\practice_problems\agent_insurance
+
+class EnvSetting(BaseSettings):
+    """公共 settings，配置 .env 文件位置"""
+
+    model_config = SettingsConfigDict(
+        env_file=(APP_ROOT / ".env"),
+        env_file_encoding="utf-8",
+        extra="ignore", # settings 中未定的字段，忽略掉
+    )
+
+class AppSetting(EnvSetting):
+    """应用相关设置"""
+
+    name: str = Field(alias="APP_NAME", description="应用名称")
+    version: str = Field(alias="APP_VERSION", default="1.0.0", description="应用版本")
+    host: str = Field(alias="APP_HOST", default="127.0.0.1", description="应用主机地址")
+    port: int = Field(alias="APP_PORT", default=8001, description="应用端口")
+    debug: bool = Field(alias="APP_DEBUG", default=True, description="是否开启FastAPI调试模式")
+
+class DatabaseSetting(EnvSetting):
+    """数据库相关设置"""
+
+    host: str = Field(alias="DB_HOST", default="192.168.10.113", description="数据库主机地址")
+    port: int = Field(alias="DB_PORT", default=5432, description="数据库端口")
+    name: str = Field(alias="DB_NAME", default="insurance", description="数据库名称")
+    user: str = Field(alias="DB_USER", default="insurance", description="数据库用户名")
+    password: str = Field(alias="DB_PASSWORD", default="insurance123", description="数据库密码")
+    echo: bool = Field(alias="DB_ECHO", default=False, description="是否输出数据库语句")
+    pool_size: int = Field(alias="DB_POOL_SIZE", default=5, description="数据库连接池大小")
+    max_overflow: int = Field(alias="DB_MAX_OVERFLOW", default=10, description="数据库最大溢出连接数")
+    pool_timeout: int = Field(alias="DB_POOL_TIMEOUT", default=30, description="数据库连接池超时时间")
+    pool_pre_ping: bool = Field(alias="DB_POOL_PRE_PING", default=True, description="是否开启数据库连接池预连接")
+    pool_recycle: int = Field(alias="DB_POOL_RECYCLE", default=1800, description="数据库连接池回收时间")
+
+    @computed_field
+    @property
+    def url(self) -> str:
+        # 自动拼接 URL 路径
+        return PostgresDsn.build(
+            scheme="postgresql+asyncpg",
+            host=self.host,
+            port=self.port,
+            username=self.user,
+            password=self.password,
+        ).encoded_string()
+
+class LLMSetting(EnvSetting):
+    """LLM 相关设置"""
+
+    api_key: str = Field(alias="DEEPSEEK_API_KEY", description="Deepseek API Key")
+    model: str = Field(alias="CHAT_MODEL", default="deepseek-v4-flash", description="Deepseek 模型名称")
+
+class LoggingSetting(EnvSetting):
+    """日志相关设置"""
+
+    level: str = Field(alias="LOGGING_LEVEL", default="INFO", description="日志级别")
+
+class Settings(BaseSettings):
+    """汇总配置"""
+
+    app: AppSetting = Field(default_factory=AppSetting, description="应用相关设置")
+    db: DatabaseSetting = Field(default_factory=DatabaseSetting, description="数据库相关设置")
+    llm: LLMSetting = Field(default_factory=LLMSetting, description="LLM 相关设置")
+    logging: LoggingSetting = Field(default_factory=LoggingSetting, description="日志相关设置")
+
+# 项目启动初始化
+settings = Settings()
+# print(settings.app)
+# print(settings.llm)
+# print(settings.logging)
+# print(settings.db)
