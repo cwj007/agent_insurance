@@ -1,0 +1,32 @@
+# ===== 环境变量 =====
+# 真实密钥不提交；.env.backup / .env.example 作为模板提交
+.env
+.env.*.local
+
+# ===== Python / 后端 =====
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# 个人测试笔记，不上传
+agent-service/notebooks/
+
+# ===== IDE / 系统 =====
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# ===== 前端 =====
+node_modules/
+frontend/dist/
+*.tsbuildinfo
+
+# ===== 日志 / 临时文件 =====
+*.log
