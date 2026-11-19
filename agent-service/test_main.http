@@ -9,9 +9,31 @@ GET http://127.0.0.1:8000/hello/User
 Accept: application/json
 
 ###
-
+# 测试列出产品
 GET http://127.0.0.1:8001/api/v1/products?category=life
 Accept: application/json
 
 ###
+# 测试列出推荐候选产品
+GET http://127.0.0.1:8001/api/v1/products/candidates?categories=life&premium_min=100000&limit_per_category=3
+Accept: application/json
+
+### 测试添加会话
+POST http://127.0.0.1:8001/api/v1/chat-threads
+x-user-id: 1
+Content-Type: application/json
+
+{
+  "title": "测试会话"
+}
+
+### 测试重命名会话（thread_id 换成实际值）
+PATCH http://127.0.0.1:8001/api/v1/chat-threads/00000000-0000-0000-0000-000000000000
+x-user-id: 1
+Content-Type: application/json
+
+{
+  "title": "重命名后的标题"
+}
+
 
