@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -5,18 +7,20 @@ from app.modules.product.schemas import ProductResponse
 from app.infra.database import get_session
 from app.modules.product.service import ProductService
 
-router = APIRouter(prefix="/api/v1/products", tags=["products"])
+router = APIRouter(prefix="/api/v1/products", tags=["产品接口"])
+
 
 # 1. 抽取公共函数，生成 service
 def get_product_service(session: AsyncSession = Depends(get_session)):
     return ProductService(session)
+
 
 # 获取产品列表
 @router.get(
     "",
     response_model=list[ProductResponse],
     summary="列出保险产品",
-    description="""根据分类筛选保险产品列表。\n- **category**: 可选，不传则返回全部分类，返回结果按创建时间倒序排列。"""
+    description="""根据分类筛选保险产品列表。\n- **category**: 可选，不传则返回全部分类，返回结果按产品 ID 升序排列。"""
 )
 async def list_products(
         category: str | None = Query(None, description="产品分类编码，不传则返回全部"),
@@ -33,14 +37,16 @@ async def list_products(
     "/candidates",
     response_model=list[ProductResponse],
     summary='列出推荐候选产品',
-    description="""根据用户输入的关键词，列出推荐的保险产品。 \n- **categories**: 产品分类编码列表，必填。\n- **premium_min**: 保险金额下限，可选。\n- **limit_per_category**: 每个分类返回数量，默认5个。"""
+    description="""根据用户输入的关键词，列出推荐的保险产品。 \n- **categories**: 产品分类编码列表，必填。\n- **premium_min**: 只返回起投保费不超过该值的产品，可选。\n- **limit_per_category**: 每个分类返回数量，默认5个。"""
 )
 async def list_candidates(
-        categories: list[str] = Query(min_length=1),
-        premium_min: Decimal | None = None,
-        limit_per_category: int = 5,
+        categories: list[str] = Query(min_length=1, description="产品分类编码列表，至少传一个"),
+        premium_min: Decimal | None = Query(None, description="起投保费上限，不传则不限制"),
+        limit_per_category: int = Query(5, ge=1, le=50, description="每个分类返回数量，最多 50"),
         service: ProductService = Depends(get_product_service)
 ) -> list[ProductResponse]:
+    """列出推荐候选产品"""
+
     # 2.查询结果
     return await service.list_candidates(
         categories=categories,
