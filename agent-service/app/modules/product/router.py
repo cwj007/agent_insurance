@@ -27,3 +27,23 @@ async def list_products(
     # 执行查询
     return await service.list_products(category)
 
+
+# 查询推荐候选产品
+@router.get(
+    "/candidates",
+    response_model=list[ProductResponse],
+    summary='列出推荐候选产品',
+    description="""根据用户输入的关键词，列出推荐的保险产品。 \n- **categories**: 产品分类编码列表，必填。\n- **premium_min**: 保险金额下限，可选。\n- **limit_per_category**: 每个分类返回数量，默认5个。"""
+)
+async def list_candidates(
+        categories: list[str] = Query(min_length=1),
+        premium_min: Decimal | None = None,
+        limit_per_category: int = 5,
+        service: ProductService = Depends(get_product_service)
+) -> list[ProductResponse]:
+    # 2.查询结果
+    return await service.list_candidates(
+        categories=categories,
+        premium_min=premium_min,
+        limit_per_category=limit_per_category,
+    )
