@@ -11,4 +11,13 @@ class ChatThreadRepository:
 
     async def add(self, chat_thread: ChatThread) -> None:
         """添加会话"""
-        await self.session.add(chat_thread)
+
+        self.session.add(chat_thread)
+
+    async def list_by_user_id(self, user_id: int):
+        """根据用户ID查询会话列表"""
+
+        return await self.session.scalars(
+            select(ChatThread)
+            .where(ChatThread.user_id == user_id)
+        ).all()
