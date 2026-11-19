@@ -1,9 +1,11 @@
 from contextlib import asynccontextmanager
 
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from starlette.responses import JSONResponse
 
 from app.core.config import settings
+from app.core.exceptions import ApplicationError
 from app.core.logging import configure_logging, get_logger
 
 # 日志配置
@@ -38,9 +40,28 @@ app = FastAPI(
     lifespan=lifespan,  # 生命周期钩子
 )
 
+
+# 全局异常处理
+@app.exception_handler(ApplicationError)
+def handle_exception(request: Request, exc: ApplicationError):
+    logger.error(f"处理异常, 请求路径: {request.url}, 异常编码: {exc.code}, 异常信息: {exc.message}")
+
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "code": exc.code,
+            "message": exc.message
+        },
+    )
+
+
 # 挂载路由
 from app.modules.product.router import router as product_router
+from app.modules.chat_threads.router import router as chat_thread_router
+
 app.include_router(product_router)
+app.include_router(chat_thread_router)
+
 
 # 测试接口，健康检查
 @app.get("/healthy", summary="健康检查")
@@ -54,10 +75,10 @@ async def healthy() -> dict[str, str]:
 # 启动项目
 if __name__ == "__main__":
     uvicorn.run(
-        "app.main:app",   # 保持字符串路径 ✅
+        "app.main:app",  # ✅ 改成这个
         host=settings.app.host,
         port=settings.app.port,
         reload=True,
-        reload_dirs=["app"],          # ✅ 明确指定监听目录
-        reload_excludes=["*.pyc", "*/migrations/*"],  # 可选
+        reload_dirs=["app"],  # ✅ 对应改成 app
+        reload_excludes=["*.pyc", "*/migrations/*"],
     )
