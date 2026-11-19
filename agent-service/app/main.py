@@ -38,6 +38,9 @@ app = FastAPI(
     lifespan=lifespan,  # 生命周期钩子
 )
 
+# 挂载路由
+from app.modules.product.router import router as product_router
+app.include_router(product_router)
 
 # 测试接口，健康检查
 @app.get("/healthy", summary="健康检查")
@@ -49,10 +52,12 @@ async def healthy() -> dict[str, str]:
 
 
 # 启动项目
-if __name__ == '__main__':
+if __name__ == "__main__":
     uvicorn.run(
-        "app.main:app",
+        "app.main:app",   # 保持字符串路径 ✅
         host=settings.app.host,
         port=settings.app.port,
-        reload=False,
+        reload=True,
+        reload_dirs=["app"],          # ✅ 明确指定监听目录
+        reload_excludes=["*.pyc", "*/migrations/*"],  # 可选
     )
