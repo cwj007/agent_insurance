@@ -5,6 +5,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # 以当前文件为基准，向上找两级的父目录，也就是项目的根目录
 APP_ROOT = Path(__file__).resolve().parents[2]
+
+
 # print(APP_ROOT) # E:\practice_problems\agent_insurance
 
 class EnvSetting(BaseSettings):
@@ -13,8 +15,9 @@ class EnvSetting(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=(APP_ROOT / ".env"),
         env_file_encoding="utf-8",
-        extra="ignore", # settings 中未定的字段，忽略掉
+        extra="ignore",  # settings 中未定的字段，忽略掉
     )
+
 
 class AppSetting(EnvSetting):
     """应用相关设置"""
@@ -24,6 +27,7 @@ class AppSetting(EnvSetting):
     host: str = Field(alias="APP_HOST", default="127.0.0.1", description="应用主机地址")
     port: int = Field(alias="APP_PORT", default=8001, description="应用端口")
     debug: bool = Field(alias="APP_DEBUG", default=True, description="是否开启FastAPI调试模式")
+
 
 class DatabaseSetting(EnvSetting):
     """数据库相关设置"""
@@ -52,16 +56,19 @@ class DatabaseSetting(EnvSetting):
             password=self.password,
         ).encoded_string()
 
+
 class LLMSetting(EnvSetting):
     """LLM 相关设置"""
 
     api_key: str = Field(alias="DEEPSEEK_API_KEY", description="Deepseek API Key")
     model: str = Field(alias="CHAT_MODEL", default="deepseek-v4-flash", description="Deepseek 模型名称")
 
+
 class LoggingSetting(EnvSetting):
     """日志相关设置"""
 
     level: str = Field(alias="LOGGING_LEVEL", default="INFO", description="日志级别")
+
 
 class Settings(BaseSettings):
     """汇总配置"""
@@ -71,9 +78,6 @@ class Settings(BaseSettings):
     llm: LLMSetting = Field(default_factory=LLMSetting, description="LLM 相关设置")
     logging: LoggingSetting = Field(default_factory=LoggingSetting, description="日志相关设置")
 
+
 # 项目启动初始化
 settings = Settings()
-# print(settings.app)
-# print(settings.llm)
-# print(settings.logging)
-# print(settings.db)
