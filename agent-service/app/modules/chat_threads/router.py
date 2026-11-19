@@ -1,4 +1,5 @@
 from typing import Annotated
+from uuid import UUID
 
 from fastapi import APIRouter, Depends, Header
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -28,6 +29,7 @@ async def create_chat_thread(
 
     return await service.add(user_id, request.title)
 
+
 @router.get("", response_model=list[ChatThreadResponse], summary="根据用户ID查询会话列表")
 async def list_by_threads(
         user_id: Annotated[int | None, Header(alias="x-user-id")],  # 不区分大小写
@@ -37,3 +39,16 @@ async def list_by_threads(
     """根据用户ID查询会话列表"""
 
     return await service.list_by_user(user_id)
+
+
+@router.patch("/{thread_id}", response_model=ChatThreadResponse, summary="重命名会话")
+async def rename_chat_thread(
+        thread_id: UUID,  # 路径参数
+        request: ChatThreadCreate,
+        user_id: Annotated[int | None, Header(alias="x-user-id")],  # 不区分大小写
+        service: ChatThreadService = Depends(get_chat_thread_service)
+
+):
+    """重命名会话"""
+
+    return await service.rename(user_id, thread_id, request.title)
