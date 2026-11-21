@@ -15,7 +15,7 @@ router = APIRouter(prefix="/api/v1/chat-threads", tags=['会话管理的接口']
 
 # 1. 抽取公共函数，生成 service
 def get_chat_thread_service(
-        request: Request, # 注入 agent
+        request: Request,  # 注入 agent
         session: AsyncSession = Depends(get_session)
 ):
     """获取数据库会话服务"""
@@ -47,6 +47,17 @@ async def list_by_threads(
     """根据用户ID查询会话列表"""
 
     return await service.list_by_user(user_id)
+
+
+@router.delete("/{thread_id}", status_code=204)
+async def remove(
+        thread_id: str,
+        user_id: Annotated[int, Header(alias="x-user-id")],
+        service: ChatThreadService = Depends(get_chat_thread_service),
+):
+    """删除会话"""
+
+    await service.remove(user_id, thread_id)
 
 
 @router.patch("/{thread_id}", response_model=ChatThreadResponse, summary="重命名会话")

@@ -37,7 +37,20 @@ class ChatThreadService:
 
         return await self.repository.list_by_user(user_id)
 
-    async def rename(self, user_id: int, thread_id: UUID, title: str) -> ChatThread:
+    async def remove(self, user_id: int, thread_id: str):
+        """根据用户ID删除会话"""
+
+        async with self.session.begin():
+            # 1.查询会话，校验会话是否属于当前用户
+            chat_thread = await self.repository.required_owner(user_id, thread_id)
+            if not chat_thread:
+                raise ChatThreadNotFound()
+            # 2.删除会话的历史消息（State的所有的快照） 当前 thread_id 中的所有快照
+            await self.agent.checkpointer.adelete_thread(thread_id)
+            # 3.删除会话
+            await self.repository.delete(chat_thread)  # 删除的是 chat_threads 数据库中的会话管理记录，而会话的历史记录消息需要 LangChain
+
+    async def rename(self, user_id: int, thread_id: str, title: str) -> ChatThread:
         """根据用户 ID 重命名会话"""
 
         async with self.session.begin():
@@ -88,7 +101,7 @@ class ChatThreadService:
                 continue
 
             if message.text:
-                messages.append(ChatMessageResponse(role=role, content=message.text)) # text 内部方法，可以是列表也可以是字符串
+                messages.append(ChatMessageResponse(role=role, content=message.text))  # text 内部方法，可以是列表也可以是字符串
 
         # 封装好的历史消息
         return ChatHistoryResponse(thread_id=thread_id, messages=messages)

@@ -20,6 +20,12 @@ class ChatThreadRepository:
 
         self.session.add(chat_thread)
 
+    async def delete(self, chat_thread: ChatThread):
+        """删除会话"""
+
+        # 删除会话
+        await self.session.delete(chat_thread)
+
     async def list_by_user(self, user_id: int):
         """根据用户ID查询会话列表"""
 
@@ -31,7 +37,7 @@ class ChatThreadRepository:
         result = await self.session.scalars(stmt)
         return result.all()
 
-    async def required_owner(self, user_id: int, thread_id: UUID) -> ChatThread | None:
+    async def required_owner(self, user_id: int, thread_id: str) -> ChatThread | None:
         """查询属于该用户的会话，不存在时返回 None"""
 
         return await self.session.scalar(
