@@ -1,3 +1,5 @@
+"""会话管理模块响应格式"""
+
 from datetime import datetime
 from uuid import UUID
 
@@ -37,8 +39,8 @@ class ChatMessageResponse(BaseSchema):
     content: str
 
 
-class ChatHistoryResponse(BaseModel):
+class ChatHistoryResponse(BaseSchema):
     """会话历史响应"""
 
     thread_id: UUID
-    messages: list[ChatMessageResponse]
+    messages: list[ChatMessageResponse] # 对话消息列表
