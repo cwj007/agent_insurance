@@ -19,17 +19,26 @@ logger = get_logger(__name__)
 async def lifespan(app: FastAPI):
     """应用生命周期钩子，用于初始化和关闭数据库连接池"""
 
-    logger.info("项目启动中，正在初始化 ...")
+    logger.info(f"【{settings.app.name}】项目启动中 ...")
+
     from app.infra.database import check_database, close_database
+    from app.infra.checkpointer import init_checkpointer, close_checkpointer
+    from app.agents.insurance_advisor import init_insurance_agent
 
     try:
         # 1. 导入数据库管理函数，完成初始化
         await check_database()
-
+        # 2. 初始化会话记忆存储器
+        checkpoint = await init_checkpointer()
+        # 3. 初始化保险顾问智能体: 使用 FastAPI 的 state
+        app.state.agent = await init_insurance_agent(checkpoint) # 一切请求都共享 agent
         yield
     finally:
-        # 2. 关闭数据库连接池
+        logger.info("应用关闭中 ...")
+        # 4. 关闭数据库连接池
         await close_database()
+        # 5. 关闭会话记忆存储器
+        await close_checkpointer()
 
 
 # 初始化 FastAPI 应用
@@ -58,9 +67,11 @@ def handle_exception(request: Request, exc: ApplicationError):
 # 挂载路由
 from app.modules.product.router import router as product_router
 from app.modules.chat_threads.router import router as chat_thread_router
+from app.modules.chat.router import router as chat_router
 
 app.include_router(product_router)
 app.include_router(chat_thread_router)
+app.include_router(chat_router)
 
 
 # 测试接口，健康检查
