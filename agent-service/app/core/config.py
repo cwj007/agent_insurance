@@ -1,3 +1,5 @@
+"""应用配置"""
+
 from pathlib import Path
 
 from pydantic import Field, computed_field, PostgresDsn
@@ -44,24 +46,38 @@ class DatabaseSetting(EnvSetting):
     pool_pre_ping: bool = Field(alias="DB_POOL_PRE_PING", default=True, description="是否开启数据库连接池预连接")
     pool_recycle: int = Field(alias="DB_POOL_RECYCLE", default=1800, description="数据库连接池回收时间")
 
-    @computed_field
-    @property
-    def url(self) -> str:
-        # 自动拼接 URL 路径
+    # 数据库连接字符串，针对 LangChain 会话以及后端数据的存储
+    def build_url(self, scheme: str):
+        """构建数据库连接字符串"""
+
         return PostgresDsn.build(
-            scheme="postgresql+asyncpg",
+            scheme=scheme,
             host=self.host,
             port=self.port,
             username=self.user,
             password=self.password,
         ).encoded_string()
 
+    # 数据库链接使用
+    @computed_field
+    @property
+    def url(self) -> str:
+        # 自动拼接 URL 路径
+        return self.build_url("postgresql+asyncpg")
+
+    # 针对 LangChain 会话链接使用
+    @computed_field
+    @property
+    def checkpoint_url(self) -> str:
+        # 自动拼接 URL 路径
+        return self.build_url("postgresql")
+
 
 class LLMSetting(EnvSetting):
     """LLM 相关设置"""
 
     api_key: str = Field(alias="DEEPSEEK_API_KEY", description="Deepseek API Key")
-    model: str = Field(alias="CHAT_MODEL", default="deepseek-v4-flash", description="Deepseek 模型名称")
+    chat_model: str = Field(alias="CHAT_MODEL", default="deepseek-v4-flash", description="Deepseek 模型名称")
 
 
 class LoggingSetting(EnvSetting):
