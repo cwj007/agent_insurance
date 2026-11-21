@@ -1,3 +1,5 @@
+"""SQLAlchemy 数据库连接池"""
+
 from collections.abc import AsyncGenerator
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import (

@@ -1,3 +1,5 @@
+"""会话管理模块异常"""
+
 from app.core.exceptions import ApplicationError
 
 

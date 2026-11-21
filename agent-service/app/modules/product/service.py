@@ -1,3 +1,5 @@
+"""保险产品模块数据库服务"""
+
 from decimal import Decimal
 
 from sqlalchemy.ext.asyncio import AsyncSession

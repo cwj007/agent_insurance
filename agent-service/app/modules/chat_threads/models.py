@@ -1,3 +1,5 @@
+"""会话管理模块数据库模型"""
+
 from uuid import UUID, uuid4
 
 from sqlalchemy import BigInteger, String

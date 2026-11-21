@@ -1,3 +1,5 @@
+"""通用请求响应模型基类"""
+
 from typing import TypeVar, Generic
 
 from pydantic import BaseModel, ConfigDict

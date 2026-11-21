@@ -1,3 +1,5 @@
+"""会话管理模块数据库 CRUD 操作"""
+
 from uuid import UUID
 
 from sqlalchemy import select

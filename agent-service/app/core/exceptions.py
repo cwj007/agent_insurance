@@ -1,3 +1,5 @@
+"""应用异常基类"""
+
 class ApplicationError(Exception):
     """应用异常基类"""
 

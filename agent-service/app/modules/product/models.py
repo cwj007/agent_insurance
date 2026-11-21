@@ -1,3 +1,5 @@
+"""保险产品模块数据库模型"""
+
 from decimal import Decimal
 
 from sqlalchemy import ARRAY, BigInteger, Numeric, String, Text

@@ -1,3 +1,5 @@
+"""保险产品模块路由"""
+
 from decimal import Decimal
 
 from fastapi import APIRouter, Depends, Query

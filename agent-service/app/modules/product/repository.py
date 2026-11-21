@@ -1,3 +1,5 @@
+"""保险产品模块数据库 CRUD 操作"""
+
 from decimal import Decimal
 
 from sqlalchemy import select
