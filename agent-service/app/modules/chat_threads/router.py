@@ -49,7 +49,7 @@ async def list_by_threads(
     return await service.list_by_user(user_id)
 
 
-@router.delete("/{thread_id}", status_code=204)
+@router.delete("/{thread_id}", status_code=204, summary="删除会话")
 async def remove(
         thread_id: str,
         user_id: Annotated[int, Header(alias="x-user-id")],
