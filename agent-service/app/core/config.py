@@ -76,8 +76,25 @@ class DatabaseSetting(EnvSetting):
 class LLMSetting(EnvSetting):
     """LLM 相关设置"""
 
-    api_key: str = Field(alias="DEEPSEEK_API_KEY", description="Deepseek API Key")
-    chat_model: str = Field(alias="CHAT_MODEL", default="deepseek-v4-flash", description="Deepseek 模型名称")
+    deepseek_api_key: str = Field(alias="DEEPSEEK_API_KEY", description="Deepseek API Key")
+    deepseek_chat_model: str = Field(alias="DEEPSEEK_CHAT_MODEL", default="deepseek-v4-flash", description="Deepseek 大语言模型")
+    dashscope_chat_model: str = Field(alias="DASHSCOPE_CHAT_MODEL", description="DASHSCOPE 大语言模型")
+    dashscope_embedding_model: str = Field(alias="DASHSCOPE_EMBEDDING_MODEL", description="DASHSCOPE 嵌入模型")
+    dashscope_rerank_model: str = Field(alias="DASHSCOPE_RERANK_MODEL", description="DASHSCOPE 重排序模型")
+
+
+class RAGSetting(EnvSetting):
+    """RAG 相关设置"""
+
+    mineru_token: str = Field(alias="MINERU_API_KEY", description="Mineru API Key")
+    milvus_host: str = Field(alias="MILVUS_HOST", default="127.0.0.1", description="Milvus 主机地址")
+    milvus_port: int = Field(alias="MILVUS_PORT", default=19530, description="Milvus 端口")
+
+    @computed_field
+    @property
+    def milvus_url(self) -> str:
+        # http://192.168.10.113:19530/
+        return f"http://{self.milvus_host}:{self.milvus_port}"
 
 
 class LoggingSetting(EnvSetting):
@@ -93,6 +110,7 @@ class Settings(BaseSettings):
     db: DatabaseSetting = Field(default_factory=DatabaseSetting, description="数据库相关设置")
     llm: LLMSetting = Field(default_factory=LLMSetting, description="LLM 相关设置")
     logging: LoggingSetting = Field(default_factory=LoggingSetting, description="日志相关设置")
+    rag: RAGSetting = Field(default_factory=RAGSetting, description="RAG相关设置")
 
 
 # 项目启动初始化
