@@ -1,8 +1,18 @@
+import sys
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 import uvicorn
 from fastapi import FastAPI, Request
 from starlette.responses import JSONResponse
+
+# 以当前文件为基准计算目录，避免依赖启动时的工作目录
+APP_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = APP_DIR.parent
+
+# 保证无论从哪个工作目录启动，都能导入 app 包
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from app.core.config import settings
 from app.core.exceptions import ApplicationError
@@ -86,10 +96,11 @@ async def healthy() -> dict[str, str]:
 # 启动项目
 if __name__ == "__main__":
     uvicorn.run(
-        "app.main:app",  # ✅ 改成这个
+        "app.main:app",
         host=settings.app.host,
         port=settings.app.port,
         reload=True,
-        reload_dirs=["app"],  # ✅ 对应改成 app
+        # 使用绝对路径，无论工作目录是项目根还是 app 目录，热重载都能生效
+        reload_dirs=[str(APP_DIR)],
         reload_excludes=["*.pyc", "*/migrations/*"],
     )
