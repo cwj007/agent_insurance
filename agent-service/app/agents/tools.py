@@ -1,4 +1,4 @@
-"""智能体工具函数"""
+"""智能体工具函数。"""
 
 from decimal import Decimal
 
@@ -16,15 +16,18 @@ async def query_candidate_products(
         premium_min: Decimal | None = None,
         limit_per_category: int = 5,
 ) -> list[str]:
-    """
-    根据保险种和保费条件查询可用于推荐的候选保险产品。当用户查询具体保险产品或需要保险产品推荐时使用。
+    """根据险种和保费条件查询可用于推荐的候选保险产品。
+
+    当用户查询具体保险产品或需要保险产品推荐时使用。
 
     Args:
         categories: 产品分类列表，可选值为 [medical, critical_illness, life, accident]。
-        premium_min: 最低保费上限，可选参数，只返回最低保费小于该值的产品。
+        premium_min: 起投保费上限，可选参数，只返回最低保费不超过该值的产品。
         limit_per_category: 每个险种最多返回的产品数量，可选参数，默认 5 个。
-    """
 
+    Returns:
+        产品 JSON 字符串列表，每个元素为一个产品的序列化结果。
+    """
     async with AsyncSessionFactory() as session:
         service = ProductService(session)
         products: list[Product] = await service.list_candidates(
