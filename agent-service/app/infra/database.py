@@ -1,4 +1,4 @@
-"""SQLAlchemy 数据库连接池"""
+"""SQLAlchemy 数据库连接池。"""
 
 from collections.abc import AsyncGenerator
 from sqlalchemy import text
@@ -41,24 +41,37 @@ AsyncSessionFactory = async_sessionmaker(
 
 # 4. 获取 session 的工具
 async def get_session() -> AsyncGenerator[AsyncSession, None]:
-    """为每个 FastAPI 请求创建独立的 AsyncSession，适用于依赖注入"""
+    """为每个 FastAPI 请求创建独立的 AsyncSession。
 
+    适用于 FastAPI 依赖注入，请求结束后自动关闭会话。
+
+    Yields:
+        当前请求绑定的数据库异步会话。
+    """
     async with AsyncSessionFactory() as session:
         yield session
 
 
 # 5. 释放数据库链接池
 async def close_database() -> None:
-    """关闭数据库引擎并释放连接池中的连接。应在应用关闭时调用"""
+    """关闭数据库引擎并释放连接池中的连接。
 
+    应在应用关闭时调用。
+    """
     await engine.dispose()
     logger.info("数据库引擎已关闭~")
 
 
 # 6. 数据库健康检查
 async def check_database() -> bool:
-    """检查数据库连接是否正常"""
+    """检查数据库连接是否正常。
 
+    通过执行 `SELECT 1` 验证连接可用性，连接异常时直接抛出异常。
+
+    Returns:
+        连接可用时返回 True。
+    """
     async with engine.connect() as connection:
         await connection.execute(text("SELECT 1"))
     logger.info("数据库连接池初始化成功~☑️")
+    return True
