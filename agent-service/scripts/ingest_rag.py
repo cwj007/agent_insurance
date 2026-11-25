@@ -23,7 +23,7 @@ from app.core.logging import configure_logging, get_logger
 from app.infra.database import AsyncSessionFactory, close_database
 from app.modules.product.models import Product
 from app.modules.product.service import ProductService
-from app.rag.pipeline import RagPipeline
+from app.rag.pipeline import RAGPipeline
 
 logger = get_logger(__name__)
 
@@ -92,7 +92,7 @@ async def main() -> None:
     vector_store = build_vector_store(embeddings)
 
     # 2. 初始化知识库构建管道
-    pipeline = RagPipeline(vector_store)
+    pipeline = RAGPipeline(vector_store)
 
     try:
         # 3. 查询全部上架产品
