@@ -1,4 +1,4 @@
-"""会话管理模块数据库模型"""
+"""会话管理模块数据库模型。"""
 
 from uuid import UUID, uuid4
 
@@ -10,7 +10,7 @@ from app.common.models import Base, CreateAtMixin, UpdateAtMixin
 
 
 class ChatThread(Base, CreateAtMixin, UpdateAtMixin):
-    """客服会话"""
+    """客服会话。"""
 
     __tablename__ = "chat_threads"
 
