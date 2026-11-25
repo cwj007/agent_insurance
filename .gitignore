@@ -16,6 +16,7 @@ venv/
 
 # 个人测试笔记，不上传
 agent-service/notebooks/
+agent-service/docs/
 
 # ===== IDE / 系统 =====
 .idea/
