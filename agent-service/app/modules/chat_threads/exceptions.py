@@ -1,10 +1,10 @@
-"""会话管理模块异常"""
+"""会话管理模块异常。"""
 
 from app.core.exceptions import ApplicationError
 
 
 class ChatThreadNotFound(ApplicationError):
-    """当前会话不存在 或者 不属于当前用户"""
+    """当前会话不存在或不属于当前用户。"""
 
     status_code: int = 400
     code: str = "CHAT_THREAD_NOT_FOUND"
