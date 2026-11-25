@@ -1,4 +1,4 @@
-"""保险产品模块响应格式"""
+"""保险产品模块响应格式。"""
 
 from decimal import Decimal
 from pydantic import BaseModel, field_validator, ConfigDict
@@ -7,7 +7,7 @@ from app.common.schemas import BaseSchema
 
 
 class ProductResponse(BaseSchema):
-    """保险产品响应结果"""
+    """保险产品响应结果。"""
 
     # 通常情况下，普通对象是无法直接转换成 BaseModel 类对象
     # 1. 使用 ConfigDict 配置模型，允许从 ORM 对象直接创建/序列化 Pydantic 模型
@@ -31,4 +31,12 @@ class ProductResponse(BaseSchema):
     @field_validator("highlights", mode="before")
     @classmethod
     def normalize_highlights(cls, value: list[str] | None) -> list[str] | None:
+        """将空值兜底为空列表。
+
+        Args:
+            value: 待校验的原始亮点列表。
+
+        Returns:
+            处理后的亮点列表；传入 None 时返回空列表。
+        """
         return value or []
