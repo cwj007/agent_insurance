@@ -1,7 +1,8 @@
-"""应用异常基类"""
+"""应用异常基类。"""
+
 
 class ApplicationError(Exception):
-    """应用异常基类"""
+    """应用异常基类。"""
 
     status_code: int = 500  # 默认状态码
     code: str = "APPLICATION_ERROR"  # 异常编码
