@@ -1,4 +1,4 @@
-"""应用配置"""
+"""应用配置。"""
 
 from pathlib import Path
 
@@ -9,10 +9,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 APP_ROOT = Path(__file__).resolve().parents[2]
 
 
-# print(APP_ROOT) # E:\practice_problems\agent_insurance
-
 class EnvSetting(BaseSettings):
-    """公共 settings，配置 .env 文件位置"""
+    """公共 settings，配置 .env 文件位置。"""
 
     model_config = SettingsConfigDict(
         env_file=(APP_ROOT / ".env"),
@@ -22,7 +20,7 @@ class EnvSetting(BaseSettings):
 
 
 class AppSetting(EnvSetting):
-    """应用相关设置"""
+    """应用相关设置。"""
 
     name: str = Field(alias="APP_NAME", description="应用名称")
     version: str = Field(alias="APP_VERSION", default="1.0.0", description="应用版本")
@@ -32,7 +30,7 @@ class AppSetting(EnvSetting):
 
 
 class DatabaseSetting(EnvSetting):
-    """数据库相关设置"""
+    """数据库相关设置。"""
 
     host: str = Field(alias="DB_HOST", default="192.168.10.113", description="数据库主机地址")
     port: int = Field(alias="DB_PORT", default=5432, description="数据库端口")
@@ -48,8 +46,14 @@ class DatabaseSetting(EnvSetting):
 
     # 数据库连接字符串，针对 LangChain 会话以及后端数据的存储
     def build_url(self, scheme: str):
-        """构建数据库连接字符串"""
+        """构建数据库连接字符串。
 
+        Args:
+            scheme: 数据库连接协议，如 postgresql+asyncpg、postgresql。
+
+        Returns:
+            拼接完成并转义后的数据库连接字符串。
+        """
         return PostgresDsn.build(
             scheme=scheme,
             host=self.host,
@@ -62,6 +66,11 @@ class DatabaseSetting(EnvSetting):
     @computed_field
     @property
     def url(self) -> str:
+        """获取异步数据库连接字符串。
+
+        Returns:
+            使用 postgresql+asyncpg 协议的数据库连接字符串。
+        """
         # 自动拼接 URL 路径
         return self.build_url("postgresql+asyncpg")
 
@@ -69,12 +78,17 @@ class DatabaseSetting(EnvSetting):
     @computed_field
     @property
     def checkpoint_url(self) -> str:
+        """获取 LangChain 会话记忆使用的数据库连接字符串。
+
+        Returns:
+            使用 postgresql 协议的数据库连接字符串。
+        """
         # 自动拼接 URL 路径
         return self.build_url("postgresql")
 
 
 class LLMSetting(EnvSetting):
-    """LLM 相关设置"""
+    """LLM 相关设置。"""
 
     deepseek_api_key: str = Field(alias="DEEPSEEK_API_KEY", description="Deepseek API Key")
     deepseek_chat_model: str = Field(alias="DEEPSEEK_CHAT_MODEL", default="deepseek-v4-flash", description="Deepseek 大语言模型")
@@ -84,7 +98,7 @@ class LLMSetting(EnvSetting):
 
 
 class RAGSetting(EnvSetting):
-    """RAG 相关设置"""
+    """RAG 相关设置。"""
 
     mineru_token: str = Field(alias="MINERU_API_KEY", description="Mineru API Key")
     milvus_host: str = Field(alias="MILVUS_HOST", default="127.0.0.1", description="Milvus 主机地址")
@@ -93,18 +107,23 @@ class RAGSetting(EnvSetting):
     @computed_field
     @property
     def milvus_url(self) -> str:
+        """获取 Milvus 服务地址。
+
+        Returns:
+            形如 http://host:port 的 Milvus 地址。
+        """
         # http://192.168.10.113:19530/
         return f"http://{self.milvus_host}:{self.milvus_port}"
 
 
 class LoggingSetting(EnvSetting):
-    """日志相关设置"""
+    """日志相关设置。"""
 
     level: str = Field(alias="LOGGING_LEVEL", default="INFO", description="日志级别")
 
 
 class Settings(BaseSettings):
-    """汇总配置"""
+    """汇总配置。"""
 
     app: AppSetting = Field(default_factory=AppSetting, description="应用相关设置")
     db: DatabaseSetting = Field(default_factory=DatabaseSetting, description="数据库相关设置")
