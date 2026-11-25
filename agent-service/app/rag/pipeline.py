@@ -27,7 +27,7 @@ MARKDOWN_OPTIMIZATION_PROMPT = """
 """.strip()
 
 
-class RagPipeline:
+class RAGPipeline:
     """知识库构建管道。"""
 
     def __init__(self, vector_store: Milvus):
