@@ -40,3 +40,35 @@ async def query_candidate_products(
             ProductResponse.model_validate(product).model_dump_json()
             for product in products
         ]
+
+@tool(parse_docstring=True)
+async def retrieve_insurance_clause(
+        query: str,
+        k: int,
+        product_id: int,
+):
+    """查询指定保险产品的条款内容。
+
+    Args:
+        query: 需要从保险条款中查询的问题。
+        k: 返回的文档数量。
+        product_id: 保险产品 ID。
+
+    Returns:
+        检索到的文档列表，每个元素为一个包含 section_path 和 content 字段的字符串。
+    """
+
+    # 导入 Retriever
+    from app.rag import retriever
+
+    # 检索
+    chunks = await retriever.retrieve(query, k, product_id)
+
+    # 手动将数据转换为字符串
+    results = [
+        f"章节: {chunk.section_path}\n 内容: {chunk.content}"
+        for chunk in chunks
+    ]
+
+    # 返回结果
+    return results
