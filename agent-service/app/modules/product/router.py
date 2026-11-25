@@ -1,4 +1,4 @@
-"""保险产品模块路由"""
+"""保险产品模块路由。"""
 
 from decimal import Decimal
 
@@ -14,6 +14,14 @@ router = APIRouter(prefix="/api/v1/products", tags=["产品接口"])
 
 # 1. 抽取公共函数，生成 service
 def get_product_service(session: AsyncSession = Depends(get_session)):
+    """获取 ProductService 实例。
+
+    Args:
+        session: 数据库异步会话，由 FastAPI 依赖注入。
+
+    Returns:
+        绑定当前请求会话的 ProductService 实例。
+    """
     return ProductService(session)
 
 
@@ -28,8 +36,15 @@ async def list_products(
         category: str | None = Query(None, description="产品分类编码，不传则返回全部"),
         service: ProductService = Depends(get_product_service),
 ) -> list[ProductResponse]:
-    """列出产品"""
+    """列出产品。
 
+    Args:
+        category: 产品分类编码，不传则返回全部。
+        service: 产品服务实例，由 FastAPI 依赖注入。
+
+    Returns:
+        保险产品列表，按产品 ID 升序排列。
+    """
     # 执行查询
     return await service.list_products(category)
 
@@ -47,8 +62,17 @@ async def list_candidates(
         limit_per_category: int = Query(5, ge=1, le=50, description="每个分类返回数量，最多 50"),
         service: ProductService = Depends(get_product_service)
 ) -> list[ProductResponse]:
-    """列出推荐候选产品"""
+    """列出推荐候选产品。
 
+    Args:
+        categories: 产品分类编码列表，至少传入一个。
+        premium_min: 起投保费上限，不传则不限制。
+        limit_per_category: 每个分类返回的产品数量，默认 5。
+        service: 产品服务实例，由 FastAPI 依赖注入。
+
+    Returns:
+        候选保险产品列表。
+    """
     # 2.查询结果
     return await service.list_candidates(
         categories=categories,
