@@ -1,4 +1,4 @@
-"""保险顾问智能体"""
+"""保险顾问智能体。"""
 
 from langchain.agents import create_agent
 from langchain.chat_models import init_chat_model as _init_chat_model
