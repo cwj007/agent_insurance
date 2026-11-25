@@ -1,4 +1,4 @@
-"""保险产品模块数据库模型"""
+"""保险产品模块数据库模型。"""
 
 from decimal import Decimal
 
@@ -9,7 +9,7 @@ from app.common.models import Base, CreateAtMixin, UpdateAtMixin
 
 
 class Product(Base, CreateAtMixin, UpdateAtMixin):
-    """保险产品"""
+    """保险产品。"""
 
     __tablename__ = "products"
 
