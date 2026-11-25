@@ -1,4 +1,4 @@
-"""会话管理模块服务"""
+"""会话管理模块服务。"""
 
 from uuid import UUID
 
@@ -13,16 +13,29 @@ from app.modules.chat_threads.schemas import ChatHistoryResponse, ChatMessageRes
 
 
 class ChatThreadService:
-    """会话服务"""
+    """会话服务。"""
 
     def __init__(self, session: AsyncSession, agent: CompiledStateGraph):
+        """初始化会话服务。
+
+        Args:
+            session: 数据库异步会话。
+            agent: 编译后的 LangGraph agent 实例。
+        """
         self.session = session
         self.agent = agent
         self.repository = ChatThreadRepository(session)
 
     async def add(self, user_id: int, title: str) -> ChatThread:
-        """新增会话"""
+        """新增会话。
 
+        Args:
+            user_id: 用户 ID。
+            title: 会话标题。
+
+        Returns:
+            新建的会话对象。
+        """
         # 用上下文管理，开启事务，运行完成，自动commit，出现异常，自动rollback
         async with self.session.begin():
             # 创建对象，对象 映射 到数据库 一条数据
@@ -33,13 +46,26 @@ class ChatThreadService:
             return chat_thread
 
     async def list_by_user(self, user_id: int) -> list[ChatThread]:
-        """根据用户ID查询会话列表"""
+        """根据用户 ID 查询会话列表。
 
+        Args:
+            user_id: 用户 ID。
+
+        Returns:
+            该用户的会话列表。
+        """
         return await self.repository.list_by_user(user_id)
 
     async def remove(self, user_id: int, thread_id: str):
-        """根据用户ID删除会话"""
+        """根据用户 ID 删除会话。
 
+        Args:
+            user_id: 用户 ID。
+            thread_id: 会话 ID。
+
+        Raises:
+            ChatThreadNotFound: 会话不存在或不属于该用户时抛出。
+        """
         async with self.session.begin():
             # 1.查询会话，校验会话是否属于当前用户
             chat_thread = await self.repository.required_owner(user_id, thread_id)
@@ -51,8 +77,19 @@ class ChatThreadService:
             await self.repository.delete(chat_thread)  # 删除的是 chat_threads 数据库中的会话管理记录，而会话的历史记录消息需要 LangChain
 
     async def rename(self, user_id: int, thread_id: str, title: str) -> ChatThread:
-        """根据用户 ID 重命名会话"""
+        """根据用户 ID 重命名会话。
 
+        Args:
+            user_id: 用户 ID。
+            thread_id: 会话 ID。
+            title: 新的会话标题。
+
+        Returns:
+            更新后的会话对象。
+
+        Raises:
+            ChatThreadNotFound: 会话不存在或不属于该用户时抛出。
+        """
         async with self.session.begin():
             # 1. 查询会话，校验用户
             chat_thread = await self.repository.required_owner(user_id, thread_id)
@@ -73,8 +110,18 @@ class ChatThreadService:
 
     # agent 注入
     async def get_chat_history(self, user_id: int, thread_id: str):  # 使用 agent 获取
-        """根据会话ID查询会话历史消息"""
+        """根据会话 ID 查询会话历史消息。
 
+        Args:
+            user_id: 用户 ID。
+            thread_id: 会话 ID。
+
+        Returns:
+            封装好的会话历史消息。
+
+        Raises:
+            ChatThreadNotFound: 会话不存在或不属于该用户时抛出。
+        """
         # 1. 查询会话，校验用户
         chat_thread = await self.repository.required_owner(user_id, thread_id)
 
