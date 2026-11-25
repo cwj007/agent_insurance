@@ -42,6 +42,7 @@ async def lifespan(app: FastAPI):
     from app.infra.database import check_database, close_database
     from app.infra.checkpointer import init_checkpointer, close_checkpointer
     from app.agents.insurance_advisor import init_insurance_agent
+    from app.rag import close_rag
 
     try:
         # 1. 导入数据库管理函数，完成初始化
@@ -49,10 +50,12 @@ async def lifespan(app: FastAPI):
         # 2. 初始化会话记忆存储器
         checkpoint = await init_checkpointer()
         # 3. 初始化保险顾问智能体: 使用 FastAPI 的 state
-        app.state.agent = await init_insurance_agent(checkpoint) # 一切请求都共享 agent
+        app.state.agent = await init_insurance_agent(checkpoint)  # 一切请求都共享 agent
         yield
     finally:
         logger.info("应用关闭中 ...")
+        # 6. 关闭 RAG 模块资源
+        close_rag()
         # 4. 关闭数据库连接池
         await close_database()
         # 5. 关闭会话记忆存储器
