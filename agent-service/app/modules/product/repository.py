@@ -1,4 +1,4 @@
-"""保险产品模块数据库 CRUD 操作"""
+"""保险产品模块数据库 CRUD 操作。"""
 
 from decimal import Decimal
 
@@ -9,14 +9,25 @@ from app.modules.product.models import Product
 
 
 class ProductRepository:
-    """产品仓库"""
+    """产品仓库。"""
 
     def __init__(self, session: AsyncSession):
+        """初始化产品仓库。
+
+        Args:
+            session: 数据库异步会话。
+        """
         self.session = session
 
     async def query_by_category(self, category: str | None):
-        """根据分类查询产品"""
+        """根据分类查询产品。
 
+        Args:
+            category: 产品分类编码；为空时查询全部上架产品。
+
+        Returns:
+            符合条件的产品列表，按产品 ID 升序排列。
+        """
         # 1. 动态条件
         # 1.1 产品必须是上架的
         conditions = [Product.status == 'active']
@@ -39,8 +50,16 @@ class ProductRepository:
             premium_min: Decimal | None,
             limit_per_category: int,
     ) -> list[Product]:
-        """查询推荐候选产品"""
+        """查询推荐候选产品。
 
+        Args:
+            categories: 产品分类编码列表，重复的分类会自动去重。
+            premium_min: 起投保费上限，只返回最低保费不超过该值的产品；None 表示不限制。
+            limit_per_category: 每个分类最多返回的产品数量。
+
+        Returns:
+            候选产品列表，按分类顺序拼接，分类内按最低保费升序排列。
+        """
         # 每个险种查 limit_per_category 条，所以先定义list，收集结果
         candidate_products: list[Product] = []
 
