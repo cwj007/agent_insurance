@@ -1,4 +1,4 @@
-"""LangChain PostgreSQL 会话记忆存储器"""
+"""LangChain PostgreSQL 会话记忆存储器。"""
 
 from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
 from psycopg.rows import dict_row
@@ -25,8 +25,13 @@ checkpoint_pool = AsyncConnectionPool(
 
 
 async def init_checkpointer() -> AsyncPostgresSaver:
-    """初始化会话记忆存储器"""
+    """初始化会话记忆存储器。
 
+    打开专用连接池、创建 AsyncPostgresSaver 实例并自动建表。
+
+    Returns:
+        初始化完成的 AsyncPostgresSaver 实例。
+    """
     # 1. 初始化连接池
     await checkpoint_pool.open()  # 初始化链接
     await checkpoint_pool.wait()  # 等待连接池初始化完成
@@ -42,7 +47,9 @@ async def init_checkpointer() -> AsyncPostgresSaver:
 
 
 async def close_checkpointer() -> None:
-    """关闭会话记忆存储器"""
+    """关闭会话记忆存储器。
 
+    关闭 checkpointer 专用连接池，释放全部数据库连接。
+    """
     await checkpoint_pool.close()
     logger.info("Checkpointer 连接池已关闭~")
