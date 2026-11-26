@@ -150,6 +150,7 @@ export async function streamChat(
   input: { message?: string; decision?: Record<string, unknown> },
   handlers: {
     onMessage: (chunk: string) => void;
+    onReplace?: (content: string) => void;
     onAdditionalInfo?: (info: unknown) => void;
     onInterrupt?: (interrupt: PlanInterrupt) => void;
   },
@@ -187,6 +188,7 @@ function handleSseEvent(
   eventText: string,
   handlers: {
     onMessage: (chunk: string) => void;
+    onReplace?: (content: string) => void;
     onAdditionalInfo?: (info: unknown) => void;
     onInterrupt?: (interrupt: PlanInterrupt) => void;
   },
@@ -200,6 +202,15 @@ function handleSseEvent(
   if (!data) return;
   if (event === 'message') {
     handlers.onMessage(parseSseMessage(data));
+    return;
+  }
+  if (event === 'replace') {
+    const parsed = parseJsonLike(data);
+    const content =
+      parsed && typeof parsed === 'object' && 'content' in parsed
+        ? String((parsed as { content?: unknown }).content ?? '')
+        : parseSseMessage(data);
+    handlers.onReplace?.(content);
     return;
   }
   if (event === 'interrupt') {

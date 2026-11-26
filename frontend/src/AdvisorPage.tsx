@@ -239,6 +239,7 @@ export function AdvisorPage({ session, onBack, onSessionExpired, onApplyProduct 
       ]);
       await streamChat(userId, threadId, { message: content }, {
         onMessage: appendAssistantChunk,
+        onReplace: replaceAssistantMessage,
         onAdditionalInfo: appendAdditionalInfo,
         onInterrupt: (interrupt) => {
           setPendingInterrupt(interrupt);
@@ -284,6 +285,7 @@ export function AdvisorPage({ session, onBack, onSessionExpired, onApplyProduct 
     try {
       await streamChat(userId, activeThreadId, { decision }, {
         onMessage: appendAssistantChunk,
+        onReplace: replaceAssistantMessage,
         onAdditionalInfo: appendAdditionalInfo,
         onInterrupt: (interrupt) => {
           setPendingInterrupt(interrupt);
@@ -308,6 +310,18 @@ export function AdvisorPage({ session, onBack, onSessionExpired, onApplyProduct 
       const last = next[next.length - 1];
       if (last?.role === 'assistant') {
         next[next.length - 1] = { ...last, content: last.content + chunk };
+      }
+      return next;
+    });
+  }
+
+  // output_guard 判定原始回答不安全时，用最终安全回答覆盖已展示内容
+  function replaceAssistantMessage(content: string) {
+    setMessages((current) => {
+      const next = [...current];
+      const last = next[next.length - 1];
+      if (last?.role === 'assistant') {
+        next[next.length - 1] = { ...last, content };
       }
       return next;
     });
