@@ -21,6 +21,7 @@ from app.harness import (
     start_run,
     subscribe_run_events,
 )
+from app.core.config import settings
 from app.core.logging import get_logger
 from app.modules.agent_run.exceptions import AgentRunNotFound
 from app.modules.agent_run.repository import AgentRunRepository
@@ -33,11 +34,11 @@ from app.modules.run_event.repository import RunEventRepository
 logger = get_logger(__name__)
 
 # 每次 SSE 推送的字符数；越小越接近逐字输出
-STREAM_CHUNK_SIZE = 2
+STREAM_CHUNK_SIZE = settings.chat.stream_chunk_size
 
 # 每个分片之间的间隔，以及单轮回答的总延迟上限
-STREAM_CHUNK_DELAY_SECONDS = 0.025
-STREAM_MAX_TOTAL_DELAY_SECONDS = 2.5
+STREAM_CHUNK_DELAY_SECONDS = settings.chat.stream_chunk_delay_seconds
+STREAM_MAX_TOTAL_DELAY_SECONDS = settings.chat.stream_max_total_delay_seconds
 
 
 def _chunk_text(text: str, size: int = STREAM_CHUNK_SIZE) -> Iterator[str]:
