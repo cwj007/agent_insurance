@@ -18,8 +18,8 @@ from app.core.logging import get_logger
 logger = get_logger(__name__)
 
 # 子 Agent 的上下文压缩阈值；单轮最多 10 次工具调用，30 条会在本轮中途触发
-SUBAGENT_SUMMARY_TRIGGER_MESSAGES = 60
-SUBAGENT_SUMMARY_KEEP_MESSAGES = 12
+SUBAGENT_SUMMARY_TRIGGER_MESSAGES = settings.context.subagent_summary_trigger_messages
+SUBAGENT_SUMMARY_KEEP_MESSAGES = settings.context.subagent_summary_keep_messages
 
 SYSTEM_PROMPT = """
 你是“安心保”的智能保险顾问。

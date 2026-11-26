@@ -12,12 +12,12 @@ from app.core.logging import get_logger
 logger = get_logger(__name__)
 
 # 主模型总尝试次数（含第一次），以及每次重试前的退避时间
-DEFAULT_RETRY_ATTEMPTS = 2
-DEFAULT_RETRY_BACKOFF_SECONDS = 0.3
+DEFAULT_RETRY_ATTEMPTS = settings.llm.retry_attempts
+DEFAULT_RETRY_BACKOFF_SECONDS = settings.llm.retry_backoff_seconds
 
 # 主模型连续失败多少次后熔断，以及熔断冷却时间
-DEFAULT_BREAKER_FAILURES = 3
-DEFAULT_BREAKER_COOLDOWN_SECONDS = 60.0
+DEFAULT_BREAKER_FAILURES = settings.llm.breaker_failures
+DEFAULT_BREAKER_COOLDOWN_SECONDS = settings.llm.breaker_cooldown_seconds
 
 
 def build_fallback_chat_model() -> BaseChatModel | None:

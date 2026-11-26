@@ -6,17 +6,18 @@ from langchain_core.language_models import BaseChatModel
 
 from app.agents.models.resilience import ainvoke_with_fallback
 from app.agents.safety.schemas import GuardCategory, GuardDecision
+from app.core.config import settings
 from app.core.logging import get_logger
 
 logger = get_logger(__name__)
 
 # 用户输入长度上限，超长输入直接拒绝，避免刷 token 和长文本注入
-MAX_INPUT_LENGTH = 4000
+MAX_INPUT_LENGTH = settings.guardrails.max_input_length
 
 # 校验模型故障时的降级策略：
 # 输入侧默认放行保可用；输出侧默认拦截保合规。可按业务要求调整。
-INPUT_GUARD_FAIL_OPEN = True
-OUTPUT_GUARD_FAIL_OPEN = False
+INPUT_GUARD_FAIL_OPEN = settings.guardrails.input_fail_open
+OUTPUT_GUARD_FAIL_OPEN = settings.guardrails.output_fail_open
 
 # 安全校验在主模型失败后直接切兜底模型，避免重试放大首响延迟
 GUARD_RETRY_ATTEMPTS = 1

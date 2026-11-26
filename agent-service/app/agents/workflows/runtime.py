@@ -178,8 +178,6 @@ async def _run_text_workflow(
             model,
             messages,
             _fallback_model,
-            attempts=2,
-            backoff=0.3,
             label=f"{label}工作流",
         )
         if isinstance(response, AIMessage) and response.content:

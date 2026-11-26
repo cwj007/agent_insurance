@@ -83,10 +83,10 @@ INTENT_TO_NODE: dict[Intent, WorkflowNode] = {
 }
 
 # 最大澄清次数，超过后直接兜底，避免死循环
-MAX_CLARIFICATION_ROUNDS = 2
+MAX_CLARIFICATION_ROUNDS = settings.agent.max_clarification_rounds
 
 # 是否把「输入安全校验」和「L2 意图分类」合并成一次模型调用
-ENABLE_COMBINED_INPUT_ANALYSIS = True
+ENABLE_COMBINED_INPUT_ANALYSIS = settings.agent.enable_combined_input_analysis
 
 
 def _message_text(message: BaseMessage) -> str:

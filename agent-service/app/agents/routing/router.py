@@ -14,13 +14,14 @@ from app.agents.models.resilience import (
 )
 from app.agents.routing.schemas import Intent, RouteLayer, RouteResult
 from app.agents.routing.semantic import SemanticIntentIndex
+from app.core.config import settings
 from app.core.logging import get_logger
 
 logger = get_logger(__name__)
 
 # 本地意图分类模型，复用 RAG 使用的 Ollama 服务
-OLLAMA_BASE_URL = "http://127.0.0.1:11434"
-INTENT_MODEL_NAME = "qwen3.5:0.8b"
+OLLAMA_BASE_URL = settings.llm.ollama_base_url
+INTENT_MODEL_NAME = settings.llm.intent_model_name
 
 # 本地小模型默认关闭 thinking：qwen3.5:0.8b 开启 thinking 时结构化输出
 # 经常只返回空 content，导致 JSON 解析失败（评测失败率 75%）。

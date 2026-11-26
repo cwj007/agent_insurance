@@ -7,14 +7,15 @@ from langchain_ollama import OllamaEmbeddings
 
 from app.agents.routing.examples import INTENT_EXAMPLES
 from app.agents.routing.schemas import Intent
+from app.core.config import settings
 from app.core.logging import get_logger
 
 logger = get_logger(__name__)
 
 # 与 RAG 共用本地 Ollama 嵌入模型
-OLLAMA_BASE_URL = "http://127.0.0.1:11434"
-EMBEDDING_MODEL_NAME = "qwen3-embedding:0.6b"
-EMBEDDING_DIMENSIONS = 1024
+OLLAMA_BASE_URL = settings.llm.ollama_base_url
+EMBEDDING_MODEL_NAME = settings.rag.embedding_model
+EMBEDDING_DIMENSIONS = settings.rag.embedding_dimensions
 
 # L1 阈值：在 data/intent_eval.jsonl（500 条标注集，每类 100 条）上用
 # `scripts/intent_eval.py calibrate --mode l1` 校准。

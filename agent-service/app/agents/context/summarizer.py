@@ -12,15 +12,16 @@ from langchain_core.messages import (
     SystemMessage,
 )
 
+from app.core.config import settings
 from app.core.logging import get_logger
 
 logger = get_logger(__name__)
 
 # 消息条数超过该值触发摘要
-SUMMARY_TRIGGER_MESSAGES = 40
+SUMMARY_TRIGGER_MESSAGES = settings.context.summary_trigger_messages
 
 # 摘要后保留的最近消息条数
-SUMMARY_KEEP_MESSAGES = 12
+SUMMARY_KEEP_MESSAGES = settings.context.summary_keep_messages
 
 # 参与摘要的单条消息最大字符数
 SUMMARY_MESSAGE_CHARS = 500

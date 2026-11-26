@@ -16,20 +16,21 @@ from app.agents.tools.result import (
     ToolTransientError,
     parse_tool_result,
 )
+from app.core.config import settings
 from app.core.logging import get_logger
 
 logger = get_logger(__name__)
 
 # 单次运行内的工具调用上限，防止模型死循环
-GLOBAL_RUN_TOOL_LIMIT = 10
+GLOBAL_RUN_TOOL_LIMIT = settings.tools.global_run_limit
 
 # 单个工具在单次运行内的调用上限
-PER_TOOL_RUN_LIMIT = 3
+PER_TOOL_RUN_LIMIT = settings.tools.per_tool_run_limit
 
 # 重试配置：只重试瞬时异常，重试耗尽后交给 ToolErrorMiddleware
-MAX_TOOL_RETRIES = 2
-RETRY_INITIAL_DELAY = 0.3
-RETRY_MAX_DELAY = 2.0
+MAX_TOOL_RETRIES = settings.tools.max_retries
+RETRY_INITIAL_DELAY = settings.tools.retry_initial_delay
+RETRY_MAX_DELAY = settings.tools.retry_max_delay
 
 
 def _safe_args(args: dict[str, Any]) -> dict[str, Any]:
