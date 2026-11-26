@@ -28,12 +28,12 @@ from app.rag.pipeline import RAGPipeline
 logger = get_logger(__name__)
 
 # 嵌入模型配置
-EMBEDDING_MODEL = "qwen3-embedding:0.6b"
-EMBEDDING_DIMENSIONS = 1024
-EMBEDDING_BASE_URL = "http://127.0.0.1:11434"
+EMBEDDING_MODEL = settings.rag.embedding_model
+EMBEDDING_DIMENSIONS = settings.rag.embedding_dimensions
+EMBEDDING_BASE_URL = settings.llm.ollama_base_url
 
 # Milvus Collection 名称
-COLLECTION_NAME = "insurance_collection"
+COLLECTION_NAME = settings.rag.collection_name
 
 
 def build_embeddings() -> OllamaEmbeddings:

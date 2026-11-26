@@ -12,9 +12,9 @@ logger = get_logger(__name__)
 
 # 1.初始化向量模型
 _embeddings = OllamaEmbeddings(
-    model="qwen3-embedding:0.6b",
-    dimensions=1024,
-    base_url="http://127.0.0.1:11434",
+    model=settings.rag.embedding_model,
+    dimensions=settings.rag.embedding_dimensions,
+    base_url=settings.llm.ollama_base_url,
     client_kwargs={
         "trust_env": False,  # 关键：忽略系统代理/环境变量
         "timeout": 60.0,
@@ -24,7 +24,7 @@ _embeddings = OllamaEmbeddings(
 # 2.初始化VectorStore
 _vector_store = Milvus(
     embedding_function=_embeddings,
-    collection_name="insurance_collection",
+    collection_name=settings.rag.collection_name,
     builtin_function=BM25BuiltInFunction(
         analyzer_params={"type": "chinese"}
     ),
