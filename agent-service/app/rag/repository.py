@@ -1,5 +1,5 @@
 """RAG 模块父块数据库 CRUD 操作。"""
-from typing import Any, Sequence
+from typing import Sequence
 
 from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession

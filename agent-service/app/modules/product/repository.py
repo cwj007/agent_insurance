@@ -44,6 +44,37 @@ class ProductRepository:
 
         return result.all()
 
+    async def find_by_name(self, name: str) -> list[Product]:
+        """按名称查询上架产品，优先精确匹配，其次模糊匹配。
+
+        Args:
+            name: 产品名称。
+
+        Returns:
+            匹配到的产品列表；优先返回精确匹配结果。
+        """
+        # 1. 精确匹配
+        exact_result = await self.session.scalars(
+            select(Product)
+            .where(Product.status == "active", Product.name == name)
+            .order_by(Product.id.asc())
+        )
+        exact_products = list(exact_result.all())
+        if exact_products:
+            return exact_products
+
+        # 2. 模糊匹配，限制数量，避免返回过多候选
+        fuzzy_result = await self.session.scalars(
+            select(Product)
+            .where(
+                Product.status == "active",
+                Product.name.ilike(f"%{name}%"),
+            )
+            .order_by(Product.id.asc())
+            .limit(5)
+        )
+        return list(fuzzy_result.all())
+
     async def find_candidates(
             self,
             categories: list[str],

@@ -32,6 +32,21 @@ class ProductService:
         products = await self.repository.query_by_category(category)
         return products
 
+    async def find_by_name(self, name: str) -> list[Product]:
+        """按名称查询上架产品。
+
+        Args:
+            name: 产品名称。
+
+        Returns:
+            匹配到的产品列表；名称为空时返回空列表。
+        """
+        name = name.strip()
+        if not name:
+            return []
+
+        return await self.repository.find_by_name(name)
+
     async def list_candidates(
             self,
             categories: list[str],
