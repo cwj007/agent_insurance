@@ -39,6 +39,19 @@ dependencies = [
 ]
 
 
+[dependency-groups]
+dev = [
+    "pytest>=9.0.0",
+]
+
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "integration: 需要真实 Ollama、Postgres、Milvus、DeepSeek 的集成测试",
+]
+
+
 [[tool.uv.index]]
 url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 default = true
