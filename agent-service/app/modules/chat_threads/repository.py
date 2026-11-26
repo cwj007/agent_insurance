@@ -28,6 +28,22 @@ class ChatThreadRepository:
         """
         self.session.add(chat_thread)
 
+    async def get(self, thread_id: UUID | str) -> ChatThread | None:
+        """按会话 ID 查询会话。
+
+        Args:
+            thread_id: 会话 ID，支持 UUID 或字符串。
+
+        Returns:
+            会话对象；不存在或 ID 非法时返回 None。
+        """
+        if isinstance(thread_id, str):
+            try:
+                thread_id = UUID(thread_id)
+            except ValueError:
+                return None
+        return await self.session.get(ChatThread, thread_id)
+
     async def delete(self, chat_thread: ChatThread):
         """删除会话。
 
