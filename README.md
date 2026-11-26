@@ -173,6 +173,10 @@ npm run dev
 | `USER_MEMORY_RETENTION_DAYS` | `180` | 情节记忆保留天数 |
 | `RETENTION_CLEANUP_INTERVAL_HOURS` | `24` | 过期数据清理周期 |
 
+> 完整配置项（含默认值）见 `agent-service/.env.backup`。
+
+> **不要把真实密钥写入 `.env.backup`**：该文件会被提交到仓库。需要本地留档时使用 `.env.backup.local`，该文件已被 `.gitignore` 忽略。
+
 > 前端演示环境的用户身份来自 `localStorage`，通过 `x-user-id` 请求头传递给后端；生产环境应替换为真实登录鉴权。
 
 ## API 概览
