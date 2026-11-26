@@ -1,0 +1,680 @@
+{
+  "samples": 95,
+  "judge_model": "deepseek-v4-flash",
+  "elapsed_seconds": 512.24,
+  "metrics": {
+    "context_precision": 0.6710818712833191,
+    "context_recall": 0.9105263157894737
+  },
+  "failed": {
+    "context_precision": 0,
+    "context_recall": 0
+  },
+  "per_sample": [
+    {
+      "question": "这款保险买了之后多久生效？",
+      "topic": "等待期",
+      "product_name": "达尔文宝贝计划12号",
+      "context_precision": 0.49999999995,
+      "context_recall": 1.0
+    },
+    {
+      "question": "保险责任具体包括什么？",
+      "topic": "保险责任",
+      "product_name": "达尔文宝贝计划12号",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "责任免除包括哪些情形？",
+      "topic": "责任免除",
+      "product_name": "达尔文宝贝计划12号",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "买完保险多久内可以全额退保？",
+      "topic": "犹豫期",
+      "product_name": "达尔文宝贝计划12号",
+      "context_precision": 0.5833333333041666,
+      "context_recall": 1.0
+    },
+    {
+      "question": "怎么申请保险金？",
+      "topic": "理赔",
+      "product_name": "达尔文宝贝计划12号",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "退保需要什么手续？",
+      "topic": "退保",
+      "product_name": "达尔文宝贝计划12号",
+      "context_precision": 0.8333333332916666,
+      "context_recall": 1.0
+    },
+    {
+      "question": "投保时健康告知怎么填？",
+      "topic": "如实告知",
+      "product_name": "达尔文宝贝计划12号",
+      "context_precision": 0.7499999999625,
+      "context_recall": 1.0
+    },
+    {
+      "question": "宽限期内出险能赔吗？",
+      "topic": "宽限期",
+      "product_name": "达尔文宝贝计划12号",
+      "context_precision": 0.0,
+      "context_recall": 1.0
+    },
+    {
+      "question": "保险什么时候到期？",
+      "topic": "保险期间",
+      "product_name": "达尔文宝贝计划12号",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "等待期内生病能理赔吗？",
+      "topic": "等待期",
+      "product_name": "达尔文12号重大疾病保险",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "这个产品提供哪些保障？",
+      "topic": "保险责任",
+      "product_name": "达尔文12号重大疾病保险",
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "question": "哪些情况保险公司不赔？",
+      "topic": "责任免除",
+      "product_name": "达尔文12号重大疾病保险",
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "question": "犹豫期是多少天？",
+      "topic": "犹豫期",
+      "product_name": "达尔文12号重大疾病保险",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "理赔流程是什么？",
+      "topic": "理赔",
+      "product_name": "达尔文12号重大疾病保险",
+      "context_precision": 0.49999999995,
+      "context_recall": 1.0
+    },
+    {
+      "question": "退保怎么办理？",
+      "topic": "退保",
+      "product_name": "达尔文12号重大疾病保险",
+      "context_precision": 0.7499999999625,
+      "context_recall": 1.0
+    },
+    {
+      "question": "没有如实告知会有什么后果？",
+      "topic": "如实告知",
+      "product_name": "达尔文12号重大疾病保险",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "保单失效了怎么恢复？",
+      "topic": "宽限期",
+      "product_name": "达尔文12号重大疾病保险",
+      "context_precision": 0.0,
+      "context_recall": 1.0
+    },
+    {
+      "question": "这份保险保多久？",
+      "topic": "保险期间",
+      "product_name": "达尔文12号重大疾病保险",
+      "context_precision": 0.49999999995,
+      "context_recall": 1.0
+    },
+    {
+      "question": "保险的观察期是多长时间？",
+      "topic": "等待期",
+      "product_name": "复星联合医联有盟重疾险",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "这个产品保哪些责任？",
+      "topic": "保险责任",
+      "product_name": "复星联合医联有盟重疾险",
+      "context_precision": 0.8055555555287036,
+      "context_recall": 1.0
+    },
+    {
+      "question": "这份保险的免责条款有哪些？",
+      "topic": "责任免除",
+      "product_name": "复星联合医联有盟重疾险",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "刚买的保险不想要了能退吗？",
+      "topic": "犹豫期",
+      "product_name": "复星联合医联有盟重疾险",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "申请赔付要提交什么资料？",
+      "topic": "理赔",
+      "product_name": "复星联合医联有盟重疾险",
+      "context_precision": 0.49999999995,
+      "context_recall": 1.0
+    },
+    {
+      "question": "退保能拿回多少钱？",
+      "topic": "退保",
+      "product_name": "复星联合医联有盟重疾险",
+      "context_precision": 0.249999999975,
+      "context_recall": 1.0
+    },
+    {
+      "question": "买保险需要告知既往病史吗？",
+      "topic": "如实告知",
+      "product_name": "复星联合医联有盟重疾险",
+      "context_precision": 0.3333333333,
+      "context_recall": 1.0
+    },
+    {
+      "question": "忘记交保费会怎么样？",
+      "topic": "宽限期",
+      "product_name": "复星联合医联有盟重疾险",
+      "context_precision": 0.699999999965,
+      "context_recall": 1.0
+    },
+    {
+      "question": "保险期间是多长时间？",
+      "topic": "保险期间",
+      "product_name": "复星联合医联有盟重疾险",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "等待期是多久？",
+      "topic": "等待期",
+      "product_name": "复星联合星相守2号长期医疗险（个人版）",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "这份保险能赔哪些情况？",
+      "topic": "保险责任",
+      "product_name": "复星联合星相守2号长期医疗险（个人版）",
+      "context_precision": 0.49999999995,
+      "context_recall": 1.0
+    },
+    {
+      "question": "什么情况下不能理赔？",
+      "topic": "责任免除",
+      "product_name": "复星联合星相守2号长期医疗险（个人版）",
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "question": "这份产品有犹豫期吗？",
+      "topic": "犹豫期",
+      "product_name": "复星联合星相守2号长期医疗险（个人版）",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "理赔需要准备哪些材料？",
+      "topic": "理赔",
+      "product_name": "复星联合星相守2号长期医疗险（个人版）",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "续保需要重新审核吗？",
+      "topic": "续保",
+      "product_name": "复星联合星相守2号长期医疗险（个人版）",
+      "context_precision": 0.0,
+      "context_recall": 1.0
+    },
+    {
+      "question": "不想买了怎么解除合同？",
+      "topic": "退保",
+      "product_name": "复星联合星相守2号长期医疗险（个人版）",
+      "context_precision": 0.99999999995,
+      "context_recall": 1.0
+    },
+    {
+      "question": "如实告知义务是什么？",
+      "topic": "如实告知",
+      "product_name": "复星联合星相守2号长期医疗险（个人版）",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "免赔额是多少？",
+      "topic": "免赔额",
+      "product_name": "复星联合星相守2号长期医疗险（个人版）",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "保障到多少岁？",
+      "topic": "保险期间",
+      "product_name": "复星联合星相守2号长期医疗险（个人版）",
+      "context_precision": 0.249999999975,
+      "context_recall": 1.0
+    },
+    {
+      "question": "这款保险买了之后多久生效？",
+      "topic": "等待期",
+      "product_name": "复星联合星相守2号长期医疗险（转保版）",
+      "context_precision": 0.49999999995,
+      "context_recall": 1.0
+    },
+    {
+      "question": "保险责任具体包括什么？",
+      "topic": "保险责任",
+      "product_name": "复星联合星相守2号长期医疗险（转保版）",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "责任免除包括哪些情形？",
+      "topic": "责任免除",
+      "product_name": "复星联合星相守2号长期医疗险（转保版）",
+      "context_precision": 0.49999999995,
+      "context_recall": 1.0
+    },
+    {
+      "question": "买完保险多久内可以全额退保？",
+      "topic": "犹豫期",
+      "product_name": "复星联合星相守2号长期医疗险（转保版）",
+      "context_precision": 0.49999999995,
+      "context_recall": 1.0
+    },
+    {
+      "question": "怎么申请保险金？",
+      "topic": "理赔",
+      "product_name": "复星联合星相守2号长期医疗险（转保版）",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "续保条件是什么？",
+      "topic": "续保",
+      "product_name": "复星联合星相守2号长期医疗险（转保版）",
+      "context_precision": 0.249999999975,
+      "context_recall": 1.0
+    },
+    {
+      "question": "退保需要什么手续？",
+      "topic": "退保",
+      "product_name": "复星联合星相守2号长期医疗险（转保版）",
+      "context_precision": 0.99999999995,
+      "context_recall": 1.0
+    },
+    {
+      "question": "投保时健康告知怎么填？",
+      "topic": "如实告知",
+      "product_name": "复星联合星相守2号长期医疗险（转保版）",
+      "context_precision": 0.49999999995,
+      "context_recall": 1.0
+    },
+    {
+      "question": "每次住院都要扣免赔额吗？",
+      "topic": "免赔额",
+      "product_name": "复星联合星相守2号长期医疗险（转保版）",
+      "context_precision": 0.49999999995,
+      "context_recall": 1.0
+    },
+    {
+      "question": "保险什么时候到期？",
+      "topic": "保险期间",
+      "product_name": "复星联合星相守2号长期医疗险（转保版）",
+      "context_precision": 0.49999999995,
+      "context_recall": 1.0
+    },
+    {
+      "question": "等待期内生病能理赔吗？",
+      "topic": "等待期",
+      "product_name": "众安尊享e生百万医疗险2026版",
+      "context_precision": 0.3333333333,
+      "context_recall": 1.0
+    },
+    {
+      "question": "这个产品提供哪些保障？",
+      "topic": "保险责任",
+      "product_name": "众安尊享e生百万医疗险2026版",
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "question": "哪些情况保险公司不赔？",
+      "topic": "责任免除",
+      "product_name": "众安尊享e生百万医疗险2026版",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "犹豫期是多少天？",
+      "topic": "犹豫期",
+      "product_name": "众安尊享e生百万医疗险2026版",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "理赔流程是什么？",
+      "topic": "理赔",
+      "product_name": "众安尊享e生百万医疗险2026版",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "产品停售了还能续保吗？",
+      "topic": "续保",
+      "product_name": "众安尊享e生百万医疗险2026版",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "没有如实告知会有什么后果？",
+      "topic": "如实告知",
+      "product_name": "众安尊享e生百万医疗险2026版",
+      "context_precision": 0.0,
+      "context_recall": 1.0
+    },
+    {
+      "question": "免赔额怎么计算？",
+      "topic": "免赔额",
+      "product_name": "众安尊享e生百万医疗险2026版",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "这份保险保多久？",
+      "topic": "保险期间",
+      "product_name": "众安尊享e生百万医疗险2026版",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "这个产品保哪些责任？",
+      "topic": "保险责任",
+      "product_name": "中英人寿福满佳C款（悦享版）",
+      "context_precision": 0.0,
+      "context_recall": 1.0
+    },
+    {
+      "question": "这份保险的免责条款有哪些？",
+      "topic": "责任免除",
+      "product_name": "中英人寿福满佳C款（悦享版）",
+      "context_precision": 0.49999999995,
+      "context_recall": 1.0
+    },
+    {
+      "question": "刚买的保险不想要了能退吗？",
+      "topic": "犹豫期",
+      "product_name": "中英人寿福满佳C款（悦享版）",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "申请赔付要提交什么资料？",
+      "topic": "理赔",
+      "product_name": "中英人寿福满佳C款（悦享版）",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "退保能拿回多少钱？",
+      "topic": "退保",
+      "product_name": "中英人寿福满佳C款（悦享版）",
+      "context_precision": 0.4166666666458333,
+      "context_recall": 1.0
+    },
+    {
+      "question": "买保险需要告知既往病史吗？",
+      "topic": "如实告知",
+      "product_name": "中英人寿福满佳C款（悦享版）",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "忘记交保费会怎么样？",
+      "topic": "宽限期",
+      "product_name": "中英人寿福满佳C款（悦享版）",
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "question": "保险期间是多长时间？",
+      "topic": "保险期间",
+      "product_name": "中英人寿福满佳C款（悦享版）",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "这份保险能赔哪些情况？",
+      "topic": "保险责任",
+      "product_name": "太保福有余2025",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "什么情况下不能理赔？",
+      "topic": "责任免除",
+      "product_name": "太保福有余2025",
+      "context_precision": 0.19999999998,
+      "context_recall": 0.0
+    },
+    {
+      "question": "这份产品有犹豫期吗？",
+      "topic": "犹豫期",
+      "product_name": "太保福有余2025",
+      "context_precision": 0.8055555555287036,
+      "context_recall": 1.0
+    },
+    {
+      "question": "理赔需要准备哪些材料？",
+      "topic": "理赔",
+      "product_name": "太保福有余2025",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "不想买了怎么解除合同？",
+      "topic": "退保",
+      "product_name": "太保福有余2025",
+      "context_precision": 0.99999999995,
+      "context_recall": 1.0
+    },
+    {
+      "question": "如实告知义务是什么？",
+      "topic": "如实告知",
+      "product_name": "太保福有余2025",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "保费宽限期有几天？",
+      "topic": "宽限期",
+      "product_name": "太保福有余2025",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "保障到多少岁？",
+      "topic": "保险期间",
+      "product_name": "太保福有余2025",
+      "context_precision": 0.249999999975,
+      "context_recall": 1.0
+    },
+    {
+      "question": "保险责任具体包括什么？",
+      "topic": "保险责任",
+      "product_name": "新华人寿E增福优享版",
+      "context_precision": 0.0,
+      "context_recall": 1.0
+    },
+    {
+      "question": "责任免除包括哪些情形？",
+      "topic": "责任免除",
+      "product_name": "新华人寿E增福优享版",
+      "context_precision": 0.49999999995,
+      "context_recall": 1.0
+    },
+    {
+      "question": "买完保险多久内可以全额退保？",
+      "topic": "犹豫期",
+      "product_name": "新华人寿E增福优享版",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "怎么申请保险金？",
+      "topic": "理赔",
+      "product_name": "新华人寿E增福优享版",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "退保需要什么手续？",
+      "topic": "退保",
+      "product_name": "新华人寿E增福优享版",
+      "context_precision": 0.7499999999625,
+      "context_recall": 1.0
+    },
+    {
+      "question": "投保时健康告知怎么填？",
+      "topic": "如实告知",
+      "product_name": "新华人寿E增福优享版",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "宽限期内出险能赔吗？",
+      "topic": "宽限期",
+      "product_name": "新华人寿E增福优享版",
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "question": "保险什么时候到期？",
+      "topic": "保险期间",
+      "product_name": "新华人寿E增福优享版",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "这个产品提供哪些保障？",
+      "topic": "保险责任",
+      "product_name": "太平洋小蜜蜂6号综合意外险",
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "question": "哪些情况保险公司不赔？",
+      "topic": "责任免除",
+      "product_name": "太平洋小蜜蜂6号综合意外险",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "理赔流程是什么？",
+      "topic": "理赔",
+      "product_name": "太平洋小蜜蜂6号综合意外险",
+      "context_precision": 0.32499999998375,
+      "context_recall": 0.5
+    },
+    {
+      "question": "没有如实告知会有什么后果？",
+      "topic": "如实告知",
+      "product_name": "太平洋小蜜蜂6号综合意外险",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "这份保险保多久？",
+      "topic": "保险期间",
+      "product_name": "太平洋小蜜蜂6号综合意外险",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "这个产品保哪些责任？",
+      "topic": "保险责任",
+      "product_name": "太平洋小蜜蜂6号玫瑰版综合意外险",
+      "context_precision": 0.3333333333,
+      "context_recall": 1.0
+    },
+    {
+      "question": "这份保险的免责条款有哪些？",
+      "topic": "责任免除",
+      "product_name": "太平洋小蜜蜂6号玫瑰版综合意外险",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "申请赔付要提交什么资料？",
+      "topic": "理赔",
+      "product_name": "太平洋小蜜蜂6号玫瑰版综合意外险",
+      "context_precision": 0.49999999995,
+      "context_recall": 1.0
+    },
+    {
+      "question": "买保险需要告知既往病史吗？",
+      "topic": "如实告知",
+      "product_name": "太平洋小蜜蜂6号玫瑰版综合意外险",
+      "context_precision": 0.49999999995,
+      "context_recall": 1.0
+    },
+    {
+      "question": "保险期间是多长时间？",
+      "topic": "保险期间",
+      "product_name": "太平洋小蜜蜂6号玫瑰版综合意外险",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "这份保险能赔哪些情况？",
+      "topic": "保险责任",
+      "product_name": "人保小学童2号Pro学平险",
+      "context_precision": 0.49999999995,
+      "context_recall": 1.0
+    },
+    {
+      "question": "什么情况下不能理赔？",
+      "topic": "责任免除",
+      "product_name": "人保小学童2号Pro学平险",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "理赔需要准备哪些材料？",
+      "topic": "理赔",
+      "product_name": "人保小学童2号Pro学平险",
+      "context_precision": 0.49999999995,
+      "context_recall": 1.0
+    },
+    {
+      "question": "如实告知义务是什么？",
+      "topic": "如实告知",
+      "product_name": "人保小学童2号Pro学平险",
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0
+    },
+    {
+      "question": "保障到多少岁？",
+      "topic": "保险期间",
+      "product_name": "人保小学童2号Pro学平险",
+      "context_precision": 0.3333333333,
+      "context_recall": 1.0
+    }
+  ]
+}
