@@ -102,6 +102,42 @@ class LLMSetting(EnvSetting):
     dashscope_embedding_model: str = Field(alias="DASHSCOPE_EMBEDDING_MODEL", description="DASHSCOPE 嵌入模型")
     dashscope_rerank_model: str = Field(alias="DASHSCOPE_RERANK_MODEL", description="DASHSCOPE 重排序模型")
 
+    # 本地 Ollama 与模型可靠性设置
+    ollama_base_url: str = Field(
+        alias="OLLAMA_BASE_URL",
+        default="http://127.0.0.1:11434",
+        description="本地 Ollama 服务地址，供意图分类与嵌入使用",
+    )
+    intent_model_name: str = Field(
+        alias="INTENT_MODEL_NAME",
+        default="qwen3.5:0.8b",
+        description="L2 意图分类使用的本地 Ollama 模型",
+    )
+    retry_attempts: int = Field(
+        alias="LLM_RETRY_ATTEMPTS",
+        default=2,
+        ge=1,
+        description="主模型通用重试次数（含首次调用）",
+    )
+    retry_backoff_seconds: float = Field(
+        alias="LLM_RETRY_BACKOFF_SECONDS",
+        default=0.3,
+        ge=0,
+        description="主模型重试退避基数（秒），按尝试次数线性增长",
+    )
+    breaker_failures: int = Field(
+        alias="LLM_BREAKER_FAILURES",
+        default=3,
+        ge=1,
+        description="主模型连续失败多少次后触发熔断",
+    )
+    breaker_cooldown_seconds: float = Field(
+        alias="LLM_BREAKER_COOLDOWN_SECONDS",
+        default=60.0,
+        ge=0,
+        description="主模型熔断后的冷却时间（秒）",
+    )
+
 
 class RAGSetting(EnvSetting):
     """RAG 相关设置。"""
@@ -113,6 +149,22 @@ class RAGSetting(EnvSetting):
         alias="RAG_ENABLE_RERANK",
         default=True,
         description="条款检索是否启用 DashScope 重排；重排服务故障时可设为 false",
+    )
+    embedding_model: str = Field(
+        alias="EMBEDDING_MODEL_NAME",
+        default="qwen3-embedding:0.6b",
+        description="本地 Ollama 嵌入模型",
+    )
+    embedding_dimensions: int = Field(
+        alias="EMBEDDING_DIMENSIONS",
+        default=1024,
+        ge=1,
+        description="嵌入向量维度，需与 Milvus collection 保持一致",
+    )
+    collection_name: str = Field(
+        alias="MILVUS_COLLECTION_NAME",
+        default="insurance_collection",
+        description="Milvus collection 名称",
     )
 
     @computed_field
@@ -193,6 +245,136 @@ class RetentionSetting(EnvSetting):
     )
 
 
+class ToolSetting(EnvSetting):
+    """工具调用设置。"""
+
+    timeout_seconds: float = Field(
+        alias="TOOL_TIMEOUT_SECONDS",
+        default=10.0,
+        gt=0,
+        description="单次工具执行超时秒数",
+    )
+    global_run_limit: int = Field(
+        alias="TOOL_GLOBAL_RUN_LIMIT",
+        default=10,
+        ge=1,
+        description="单次运行的工具调用总上限",
+    )
+    per_tool_run_limit: int = Field(
+        alias="TOOL_PER_TOOL_RUN_LIMIT",
+        default=3,
+        ge=1,
+        description="单次运行中单个工具的调用上限",
+    )
+    max_retries: int = Field(
+        alias="TOOL_MAX_RETRIES",
+        default=2,
+        ge=0,
+        description="工具瞬时异常的重试次数",
+    )
+    retry_initial_delay: float = Field(
+        alias="TOOL_RETRY_INITIAL_DELAY",
+        default=0.3,
+        ge=0,
+        description="工具重试初始退避秒数",
+    )
+    retry_max_delay: float = Field(
+        alias="TOOL_RETRY_MAX_DELAY",
+        default=2.0,
+        ge=0,
+        description="工具重试最大退避秒数",
+    )
+
+
+class ContextSetting(EnvSetting):
+    """会话上下文治理设置。"""
+
+    summary_trigger_messages: int = Field(
+        alias="SUMMARY_TRIGGER_MESSAGES",
+        default=40,
+        ge=1,
+        description="主图历史消息超过该数量时触发摘要",
+    )
+    summary_keep_messages: int = Field(
+        alias="SUMMARY_KEEP_MESSAGES",
+        default=12,
+        ge=1,
+        description="摘要后保留的最近消息条数",
+    )
+    subagent_summary_trigger_messages: int = Field(
+        alias="SUBAGENT_SUMMARY_TRIGGER_MESSAGES",
+        default=60,
+        ge=1,
+        description="子 Agent 历史消息超过该数量时触发摘要",
+    )
+    subagent_summary_keep_messages: int = Field(
+        alias="SUBAGENT_SUMMARY_KEEP_MESSAGES",
+        default=12,
+        ge=1,
+        description="子 Agent 摘要后保留的最近消息条数",
+    )
+
+
+class GuardrailSetting(EnvSetting):
+    """输入输出安全校验设置。"""
+
+    max_input_length: int = Field(
+        alias="MAX_INPUT_LENGTH",
+        default=4000,
+        ge=1,
+        description="用户输入最大字符数，超长直接拒绝",
+    )
+    input_fail_open: bool = Field(
+        alias="INPUT_GUARD_FAIL_OPEN",
+        default=True,
+        description="输入校验模型故障时是否放行（保可用）",
+    )
+    output_fail_open: bool = Field(
+        alias="OUTPUT_GUARD_FAIL_OPEN",
+        default=False,
+        description="输出校验模型故障时是否放行（默认拦截保合规）",
+    )
+
+
+class ChatSetting(EnvSetting):
+    """对话流式输出设置。"""
+
+    stream_chunk_size: int = Field(
+        alias="STREAM_CHUNK_SIZE",
+        default=2,
+        ge=1,
+        description="SSE 回答分片字符数",
+    )
+    stream_chunk_delay_seconds: float = Field(
+        alias="STREAM_CHUNK_DELAY_SECONDS",
+        default=0.025,
+        ge=0,
+        description="每个 SSE 分片之间的间隔秒数",
+    )
+    stream_max_total_delay_seconds: float = Field(
+        alias="STREAM_MAX_TOTAL_DELAY_SECONDS",
+        default=2.5,
+        ge=0,
+        description="单轮回答分片推送的总延迟上限秒数",
+    )
+
+
+class AgentSetting(EnvSetting):
+    """Agent 流程设置。"""
+
+    max_clarification_rounds: int = Field(
+        alias="MAX_CLARIFICATION_ROUNDS",
+        default=2,
+        ge=0,
+        description="连续澄清最大轮数，超过后进入兜底",
+    )
+    enable_combined_input_analysis: bool = Field(
+        alias="ENABLE_COMBINED_INPUT_ANALYSIS",
+        default=True,
+        description="是否把输入安全校验与 L2 意图分类合并为一次模型调用",
+    )
+
+
 class Settings(BaseSettings):
     """汇总配置。"""
 
@@ -208,6 +390,26 @@ class Settings(BaseSettings):
     retention: RetentionSetting = Field(
         default_factory=RetentionSetting,
         description="过期数据清理设置",
+    )
+    tools: ToolSetting = Field(
+        default_factory=ToolSetting,
+        description="工具调用设置",
+    )
+    context: ContextSetting = Field(
+        default_factory=ContextSetting,
+        description="会话上下文治理设置",
+    )
+    guardrails: GuardrailSetting = Field(
+        default_factory=GuardrailSetting,
+        description="输入输出安全校验设置",
+    )
+    chat: ChatSetting = Field(
+        default_factory=ChatSetting,
+        description="对话流式输出设置",
+    )
+    agent: AgentSetting = Field(
+        default_factory=AgentSetting,
+        description="Agent 流程设置",
     )
 
 
