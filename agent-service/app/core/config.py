@@ -1,6 +1,7 @@
 """应用配置。"""
 
 from pathlib import Path
+from typing import Literal
 
 from pydantic import Field, computed_field, PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -92,6 +93,11 @@ class LLMSetting(EnvSetting):
 
     deepseek_api_key: str = Field(alias="DEEPSEEK_API_KEY", description="Deepseek API Key")
     deepseek_chat_model: str = Field(alias="DEEPSEEK_CHAT_MODEL", default="deepseek-v4-flash", description="Deepseek 大语言模型")
+    dashscope_api_key: str | None = Field(
+        alias="DASHSCOPE_API_KEY",
+        default=None,
+        description="DASHSCOPE API Key，可选；用于主模型故障时的兜底模型",
+    )
     dashscope_chat_model: str = Field(alias="DASHSCOPE_CHAT_MODEL", description="DASHSCOPE 大语言模型")
     dashscope_embedding_model: str = Field(alias="DASHSCOPE_EMBEDDING_MODEL", description="DASHSCOPE 嵌入模型")
     dashscope_rerank_model: str = Field(alias="DASHSCOPE_RERANK_MODEL", description="DASHSCOPE 重排序模型")
@@ -103,6 +109,11 @@ class RAGSetting(EnvSetting):
     mineru_token: str = Field(alias="MINERU_API_KEY", description="Mineru API Key")
     milvus_host: str = Field(alias="MILVUS_HOST", default="127.0.0.1", description="Milvus 主机地址")
     milvus_port: int = Field(alias="MILVUS_PORT", default=19530, description="Milvus 端口")
+    enable_rerank: bool = Field(
+        alias="RAG_ENABLE_RERANK",
+        default=True,
+        description="条款检索是否启用 DashScope 重排；重排服务故障时可设为 false",
+    )
 
     @computed_field
     @property
@@ -122,6 +133,66 @@ class LoggingSetting(EnvSetting):
     level: str = Field(alias="LOGGING_LEVEL", default="INFO", description="日志级别")
 
 
+class AgentRunSetting(EnvSetting):
+    """Agent 运行设置。"""
+
+    durability: Literal["sync", "async", "exit"] = Field(
+        alias="AGENT_RUN_DURABILITY",
+        default="sync",
+        description="checkpoint 持久化强度；写操作建议 sync",
+    )
+    stream_before_output_guard: bool = Field(
+        alias="STREAM_BEFORE_OUTPUT_GUARD",
+        default=False,
+        description="是否在输出安全校验前流式推送回答；默认关闭以保证合规",
+    )
+    heartbeat_interval_seconds: float = Field(
+        alias="AGENT_RUN_HEARTBEAT_INTERVAL_SECONDS",
+        default=10.0,
+        description="运行心跳写入间隔秒数",
+    )
+    stale_run_seconds: float = Field(
+        alias="AGENT_RUN_STALE_SECONDS",
+        default=60.0,
+        description="心跳超过该秒数视为 worker 失联",
+    )
+    cancel_poll_interval_seconds: float = Field(
+        alias="AGENT_RUN_CANCEL_POLL_INTERVAL_SECONDS",
+        default=2.0,
+        description="跨 worker 取消请求的轮询间隔秒数",
+    )
+
+
+class RetentionSetting(EnvSetting):
+    """过期数据清理设置。"""
+
+    run_event_days: int = Field(
+        alias="RUN_EVENT_RETENTION_DAYS",
+        default=30,
+        description="运行事件保留天数",
+    )
+    tool_invocation_days: int = Field(
+        alias="TOOL_INVOCATION_RETENTION_DAYS",
+        default=30,
+        description="工具调用记录保留天数",
+    )
+    agent_run_days: int = Field(
+        alias="AGENT_RUN_RETENTION_DAYS",
+        default=90,
+        description="运行主记录保留天数",
+    )
+    user_memory_days: int = Field(
+        alias="USER_MEMORY_RETENTION_DAYS",
+        default=180,
+        description="用户情节记忆保留天数",
+    )
+    cleanup_interval_hours: int = Field(
+        alias="RETENTION_CLEANUP_INTERVAL_HOURS",
+        default=24,
+        description="清理任务运行间隔小时数",
+    )
+
+
 class Settings(BaseSettings):
     """汇总配置。"""
 
@@ -130,6 +201,14 @@ class Settings(BaseSettings):
     llm: LLMSetting = Field(default_factory=LLMSetting, description="LLM 相关设置")
     logging: LoggingSetting = Field(default_factory=LoggingSetting, description="日志相关设置")
     rag: RAGSetting = Field(default_factory=RAGSetting, description="RAG相关设置")
+    agent_run: AgentRunSetting = Field(
+        default_factory=AgentRunSetting,
+        description="Agent 运行设置",
+    )
+    retention: RetentionSetting = Field(
+        default_factory=RetentionSetting,
+        description="过期数据清理设置",
+    )
 
 
 # 项目启动初始化
