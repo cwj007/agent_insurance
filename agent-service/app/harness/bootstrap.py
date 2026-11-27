@@ -38,4 +38,5 @@ async def build_insurance_agent_graph(
         tools=build_workflow_tools(),
         tool_middlewares=build_agent_tool_middlewares(),
         model_ready=init_profile_extractor,
+        draw_graph=True,
     )

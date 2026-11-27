@@ -27,11 +27,13 @@
 
 ## 重新生成 LangGraph 主图
 
-`01-langgraph.png` 由 `agent-service/scripts/draw_langgraph.py` 生成：
+生成逻辑在 `agent-service/app/agents/orchestration/graph_export.py`：
 
 1. 编译真实 Graph；
 2. 调用 `graph.get_graph().draw_mermaid()` 导出节点和边；
 3. 用本地 Graphviz 渲染 PNG，不把图结构发送到外部渲染服务。
+
+应用启动时（`APP_DEBUG=true`），`app/agents/orchestration/graph.py` 在 `builder.compile()` 之后会自动调用 `export_graph_diagram(graph)`。不想启动服务时，也可以单独运行：
 
 ```bash
 cd agent-service
