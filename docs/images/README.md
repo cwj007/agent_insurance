@@ -25,6 +25,17 @@
 - 不出现 `.env`、API Key、数据库密码、内网 IP、真实用户手机号/健康信息/保单号。
 - 不截大段代码；代码直接放 GitHub 链接更清晰。
 
+## 重新生成 LangGraph 主图
+
+`01-langgraph.png` 由 `langgraph.dot` 通过 Graphviz 生成：
+
+```bash
+cd docs/images
+dot -Tpng -Gdpi=200 langgraph.dot -o 01-langgraph.png
+```
+
+修改图结构时同步更新 `langgraph.dot`，再执行上述命令。
+
 ## 上传后
 
 把根目录 `README.md`「效果展示」里的图片注释块取消注释，GitHub 即可直接渲染。

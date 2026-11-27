@@ -16,7 +16,7 @@
 
 ## 效果展示
 
-> 截图统一放在 [`docs/images/`](docs/images/README.md)，命名与脱敏要求见该目录说明。上传图片后，取消下方注释即可在 GitHub 直接渲染。
+> 截图统一放在 [`docs/images/`](docs/images/README.md)，命名与脱敏要求见该目录说明。`01-langgraph.png` 已生成；其余图片上传后取消注释即可在 GitHub 直接渲染。
 
 | 截图 | 展示内容 |
 |---|---|
@@ -31,8 +31,9 @@
 | `09-rag-eval.png` | RAG 检索结果或 Hit@k / MRR 评测 |
 | `10-user-profile.png` | 用户画像/情节记忆：source、needs_confirmation、version |
 
-<!-- 图片上传后取消注释
 ![LangGraph 主图](docs/images/01-langgraph.png)
+
+<!-- 其余图片上传后取消注释
 ![意图评测](docs/images/02-intent-eval.png)
 ![工具调用记录](docs/images/03-tool-invocations.png)
 ![运行管理](docs/images/04-run-management.png)
