@@ -27,14 +27,22 @@
 
 ## 重新生成 LangGraph 主图
 
-`01-langgraph.png` 由 `langgraph.dot` 通过 Graphviz 生成：
+`01-langgraph.png` 由 `agent-service/scripts/draw_langgraph.py` 生成：
+
+1. 编译真实 Graph；
+2. 调用 `graph.get_graph().draw_mermaid()` 导出节点和边；
+3. 用本地 Graphviz 渲染 PNG，不把图结构发送到外部渲染服务。
 
 ```bash
-cd docs/images
-dot -Tpng -Gdpi=200 langgraph.dot -o 01-langgraph.png
+cd agent-service
+PYTHONUTF8=1 .venv/Scripts/python.exe scripts/draw_langgraph.py
 ```
 
-修改图结构时同步更新 `langgraph.dot`，再执行上述命令。
+产物：
+
+- `langgraph-built.mmd`：LangGraph 内置 Mermaid 输出
+- `langgraph-built.dot`：本地渲染用 DOT
+- `01-langgraph.png`：README 展示图
 
 ## 上传后
 

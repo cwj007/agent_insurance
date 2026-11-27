@@ -1,0 +1,40 @@
+---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	prepare_context(prepare_context)
+	input_guard(input_guard)
+	guard_reply(guard_reply)
+	route(route)
+	clarify_node(clarify_node)
+	recommendation_node(recommendation_node)
+	claim_node(claim_node)
+	chitchat_node(chitchat_node)
+	human_handoff_node(human_handoff_node)
+	fallback_node(fallback_node)
+	output_guard(output_guard)
+	__end__([<p>__end__</p>]):::last
+	__start__ --> prepare_context;
+	chitchat_node --> output_guard;
+	claim_node --> output_guard;
+	clarify_node --> output_guard;
+	fallback_node --> output_guard;
+	human_handoff_node --> output_guard;
+	input_guard -.-> guard_reply;
+	input_guard -.-> route;
+	prepare_context --> input_guard;
+	recommendation_node --> output_guard;
+	route -.-> chitchat_node;
+	route -.-> claim_node;
+	route -.-> clarify_node;
+	route -.-> fallback_node;
+	route -.-> human_handoff_node;
+	route -.-> recommendation_node;
+	guard_reply --> __end__;
+	output_guard --> __end__;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc
