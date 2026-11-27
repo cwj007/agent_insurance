@@ -14,6 +14,36 @@
 - **用户画像与情节记忆**：从对话中抽取年龄、预算、健康状况等画像字段，跨会话保存关键事实与决定；敏感健康字段只接受用户明确陈述。
 - **可评测**：提供意图识别评测/阈值校准、RAG Hit@k/MRR 评测、Ragas 上下文质量评测，以及 164 条离线单元测试。
 
+## 效果展示
+
+> 截图统一放在 [`docs/images/`](docs/images/README.md)，命名与脱敏要求见该目录说明。上传图片后，取消下方注释即可在 GitHub 直接渲染。
+
+| 截图 | 展示内容 |
+|---|---|
+| `01-langgraph.png` | LangGraph 主图：意图路由、工作流与统一输出护栏 |
+| `02-intent-eval.png` | 意图评测/阈值校准：precision、recall、coverage |
+| `03-tool-invocations.png` | 工具调用记录：成功/失败、错误码、耗时 |
+| `04-run-management.png` | `agent_runs` + `run_events`，以及 cancel/replay/retry API |
+| `05-context-summary.png` | 长对话摘要前后对比：40 条触发、保留 12 条 |
+| `06-swagger.png` | FastAPI Swagger 接口总览 |
+| `07-frontend-chat.png` | 前端 AI 顾问对话、工具进度与转人工 |
+| `08-guardrails.png` | 输入/输出护栏拦截示例 |
+| `09-rag-eval.png` | RAG 检索结果或 Hit@k / MRR 评测 |
+| `10-user-profile.png` | 用户画像/情节记忆：source、needs_confirmation、version |
+
+<!-- 图片上传后取消注释
+![LangGraph 主图](docs/images/01-langgraph.png)
+![意图评测](docs/images/02-intent-eval.png)
+![工具调用记录](docs/images/03-tool-invocations.png)
+![运行管理](docs/images/04-run-management.png)
+![上下文摘要](docs/images/05-context-summary.png)
+![Swagger 接口](docs/images/06-swagger.png)
+![前端 AI 顾问](docs/images/07-frontend-chat.png)
+![安全护栏](docs/images/08-guardrails.png)
+![RAG 评测](docs/images/09-rag-eval.png)
+![用户画像](docs/images/10-user-profile.png)
+-->
+
 ## 系统架构
 
 ```mermaid
