@@ -25,26 +25,9 @@
 - 不出现 `.env`、API Key、数据库密码、内网 IP、真实用户手机号/健康信息/保单号。
 - 不截大段代码；代码直接放 GitHub 链接更清晰。
 
-## 重新生成 LangGraph 主图
+## LangGraph 主图
 
-生成逻辑在 `agent-service/app/agents/orchestration/graph_export.py`：
-
-1. 编译真实 Graph；
-2. 调用 `graph.get_graph().draw_mermaid()` 导出节点和边；
-3. 用本地 Graphviz 渲染 PNG，不把图结构发送到外部渲染服务。
-
-应用启动时（`APP_DEBUG=true`），`app/agents/orchestration/graph.py` 在 `builder.compile()` 之后会自动调用 `export_graph_diagram(graph)`。不想启动服务时，也可以单独运行：
-
-```bash
-cd agent-service
-PYTHONUTF8=1 .venv/Scripts/python.exe scripts/draw_langgraph.py
-```
-
-产物：
-
-- `langgraph-built.mmd`：LangGraph 内置 Mermaid 输出
-- `langgraph-built.dot`：本地渲染用 DOT
-- `01-langgraph.png`：README 展示图
+`01-langgraph.png` 为静态架构图，随仓库提供，不再由应用启动时自动生成。
 
 ## 上传后
 

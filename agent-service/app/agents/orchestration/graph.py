@@ -21,7 +21,6 @@ from langgraph.types import Command
 
 from app.agents.context.summarizer import init_context_manager, prepare_context_update
 from app.agents.models.resilience import build_fallback_chat_model
-from app.agents.orchestration.graph_export import export_graph_diagram
 from app.agents.orchestration.state import InsuranceAgentState
 from app.agents.routing.analyzer import (
     InputAnalyzer,
@@ -510,8 +509,4 @@ async def init_insurance_agent_graph(
     # 9. 编译
     graph = builder.compile(checkpointer=checkpointer)
     logger.info("保险顾问主 Graph 初始化完成~☑️")
-
-    # 10. 调试模式下把 LangGraph 内置图定义导出为 Mermaid/PNG，便于文档与排查
-    if settings.app.debug:
-        export_graph_diagram(graph)
     return graph
