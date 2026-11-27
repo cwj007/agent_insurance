@@ -16,34 +16,33 @@
 
 ## 效果展示
 
-> 截图统一放在 [`docs/images/`](docs/images/README.md)，命名与脱敏要求见该目录说明。`01-langgraph.png` 已生成；其余图片上传后取消注释即可在 GitHub 直接渲染。
+### LangGraph 架构图
 
-| 截图 | 展示内容 |
-|---|---|
-| `01-langgraph.png` | LangGraph 主图：意图路由、工作流与统一输出护栏 |
-| `02-intent-eval.png` | 意图评测/阈值校准：precision、recall、coverage |
-| `03-tool-invocations.png` | 工具调用记录：成功/失败、错误码、耗时 |
-| `04-run-management.png` | `agent_runs` + `run_events`，以及 cancel/replay/retry API |
-| `05-context-summary.png` | 长对话摘要前后对比：40 条触发、保留 12 条 |
-| `06-swagger.png` | FastAPI Swagger 接口总览 |
-| `07-frontend-chat.png` | 前端 AI 顾问对话、工具进度与转人工 |
-| `08-guardrails.png` | 输入/输出护栏拦截示例 |
-| `09-rag-eval.png` | RAG 检索结果或 Hit@k / MRR 评测 |
-| `10-user-profile.png` | 用户画像/情节记忆：source、needs_confirmation、version |
+![LangGraph 架构图](docs/images/01-langgraph.png)
 
-![LangGraph 主图](docs/images/01-langgraph.png)
+### 前端首页
 
-<!-- 其余图片上传后取消注释
-![意图评测](docs/images/02-intent-eval.png)
-![工具调用记录](docs/images/03-tool-invocations.png)
-![运行管理](docs/images/04-run-management.png)
-![上下文摘要](docs/images/05-context-summary.png)
-![Swagger 接口](docs/images/06-swagger.png)
-![前端 AI 顾问](docs/images/07-frontend-chat.png)
-![安全护栏](docs/images/08-guardrails.png)
-![RAG 评测](docs/images/09-rag-eval.png)
-![用户画像](docs/images/10-user-profile.png)
--->
+![前端首页](docs/images/02-前端主页.png)
+
+### AI 顾问对话
+
+![AI 顾问对话](docs/images/03-前端聊天内容.png)
+
+### 意图识别评测
+
+![意图识别评测](docs/images/04-intent-eval.png)
+
+### 后端 API 文档
+
+![后端 API 文档](docs/images/05-后端API文档.png)
+
+### 转人工
+
+![转人工](docs/images/06-转人工.png)
+
+### 安全护栏
+
+![安全护栏](docs/images/07-guardrails.png)
 
 ## 系统架构
 
@@ -431,13 +430,6 @@ RUN_AGENT_INTEGRATION=1 uv run pytest tests/test_agents_integration.py -v -s
 ```
 
 当前离线测试结果：**164 passed, 1 skipped**。
-
-## 已知限制
-
-- 前端身份为演示实现（`localStorage` + `x-user-id`），未接入真实登录、权限和会话校验。
-- 费率表 PDF 已随仓库提供，但当前入库脚本只处理条款 PDF；保费试算仍以产品表字段为准。
-- L2 置信度为模型自报值，阈值来自标注集校准，不等于真实概率；问法分布变化后需要重新评测。
-- 项目定位为学习/演示工程，生产部署前需补充鉴权、限流、密钥托管、监控与数据脱敏。
 
 ## 许可证
 
