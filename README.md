@@ -48,6 +48,35 @@ START → prepare_context（历史摘要/裁剪）
 - 工作流回答必须经过 `output_guard` 才会被流式推送；被拦截时前端通过 `replace` 事件覆盖已展示内容。
 - 推荐/理赔子 Agent 使用 `create_agent` 构建，共享主模型、兜底模型与工具中间件。
 
+### LangGraph 主图
+
+```mermaid
+flowchart TD
+    START([START]) --> prepare_context["prepare_context<br/>上下文摘要"]
+    prepare_context --> input_guard{"input_guard<br/>输入安全校验<br/>+ 合并意图分析"}
+
+    input_guard -->|"拦截"| guard_reply["guard_reply<br/>固定拦截话术"]
+    guard_reply --> END([END])
+    input_guard -->|"放行"| route{"route<br/>意图路由"}
+
+    route -->|"human_handoff"| human_handoff_node["human_handoff_node<br/>转人工"]
+    route -->|"recommendation_plan"| recommendation_node["recommendation_node<br/>推荐子 Agent"]
+    route -->|"claim"| claim_node["claim_node<br/>理赔子 Agent"]
+    route -->|"chitchat"| chitchat_node["chitchat_node<br/>闲聊"]
+    route -->|"fallback / 澄清超限"| fallback_node["fallback_node<br/>兜底选项"]
+    route -->|"低置信度"| clarify_node["clarify_node<br/>澄清追问"]
+
+    human_handoff_node --> output_guard["output_guard<br/>输出合规校验"]
+    recommendation_node --> output_guard
+    claim_node --> output_guard
+    chitchat_node --> output_guard
+    fallback_node --> output_guard
+    clarify_node --> output_guard
+    output_guard --> END
+```
+
+> `input_guard` 和 `route` 使用 `Command(goto=...)` 动态跳转，上图按逻辑跳转关系绘制。子 Agent 的工具关系与节点职责见 [agent-service/ARCHITECTURE.md](agent-service/ARCHITECTURE.md)。
+
 ## 技术栈
 
 | 层 | 技术 |
